@@ -1,16 +1,18 @@
 {
-  "$schema": "https://openapi.vercel.sh/vercel.json",
-  "experimentalServices": {
-    "frontend": {
-      "framework": "vite",
-      "root": ".",
-      "routePrefix": "/"
-    },
-    "backend": {
-      "root": "backend",
-      "routePrefix": "/api",
-      "framework": "other",
-      "entrypoint": "server.js"
+  "builds": [
+    {
+      "src": "package.json",
+      "use": "@vercel/static-build"
     }
-  }
+  ],
+  "routes": [
+    {
+      "src": "/api/(.*)",
+      "dest": "/backend/server.js"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/index.html"
+    }
+  ]
 }
