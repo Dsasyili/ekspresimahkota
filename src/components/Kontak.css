@@ -1,0 +1,174 @@
+.kontak-section {
+  padding: 100px 80px;
+  background: #f9f9f9;
+}
+
+.kontak-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 50px;
+  width: 100%;
+  max-width: 1500px;
+  margin: 0 auto;
+}
+
+.kontak-text {
+  flex: 1;
+}
+
+.kontak-text h2 {
+  font-size: 40px;
+  margin-bottom: 20px;
+  color: #52bb56;
+}
+
+.kontak-text p {
+  font-size: 17px;
+  color: #555;
+  line-height: 1.6;
+  margin-bottom: 25px;
+}
+
+.kontak-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 14px 30px;
+  font-size: 16px;
+  font-weight: 600;
+  background: #2f6bff;
+  color: white;
+  text-decoration: none;
+  border-radius: 25px;
+  transition: all 0.3s ease;
+  box-shadow:0 0 15pxrgba( 47, 107, 255, 0.7);
+}
+
+.kontak-btn:hover {
+  transform: translateY(-2px);
+}
+
+.ig-icon {
+  font-size: 20px;
+}
+
+.kontak-btn:hover {
+  background: #1e4ed8;
+  box-shadow: 0 0 25px rgba(47, 107, 255, 1); 
+  transform: translateY(-2px);
+}
+
+/* RIGHT */
+.kontak-image {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+}
+
+/* IMAGE */
+.kontak-image img {
+  width: 100%;
+  max-width: 960px;
+  border-radius: 20px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+  transition: all 0.4s ease; 
+}
+
+.kontak-image img:hover {
+  transform: translateY(-10px) scale(1.03); 
+  box-shadow: 0 25px 60px rgba(0,0,0,0.2);
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+  .kontak-section {
+    padding: 70px 20px;
+  }
+  .kontak-container {
+    flex-direction: column-reverse;
+    text-align: center;
+    gap: 40px;
+  }
+  .kontak-text {
+    width: 100%;
+  }
+  .kontak-text h2 {
+    font-size: 32px;
+    line-height: 1.3;
+    margin-top: 15px;
+    margin-bottom: 18px;
+  }
+  .kontak-text p {
+    font-size: 17px;
+    line-height: 1.8;
+    padding: 0 40px;
+    max-width: 100%;
+    margin-bottom: 28px;
+  }
+
+  .kontak-btn {
+    width: 100%;
+    max-width: 260px;
+    display: flex;
+    align-items: center;
+    justify-content: center; 
+    gap: 8px;
+    margin: 0 auto; 
+    padding: 14px 28px;
+    font-size: 15px;
+    border-radius: 999px;
+    text-align: center;
+  }
+
+  .kontak-image {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  }
+
+  .kontak-image img {
+    width: 100%;
+    max-width: 220px;
+    border-radius: 18px;
+  }
+}
+
+@media (max-width: 480px) {
+
+  .kontak-section {
+    padding: 60px 16px;
+  }
+
+  .kontak-container {
+    gap: 30px;
+  }
+
+  .kontak-text h2 {
+    font-size: 26px;
+  }
+
+  .kontak-text p {
+    font-size: 16px;
+    line-height: 1.7;
+  }
+
+  .kontak-btn {
+    width: 100%;
+    max-width: 260px;
+    display: flex;
+    align-items: center;
+    justify-content: center; 
+    gap: 8px;
+    margin: 0 auto; 
+    padding: 14px 28px;
+    font-size: 15px;
+    border-radius: 999px;
+    text-align: center;
+  }
+
+  .kontak-image img {
+    max-width: 370px;
+    border-radius: 15px;
+  }
+}
