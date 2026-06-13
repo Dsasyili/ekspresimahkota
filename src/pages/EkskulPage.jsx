@@ -15,9 +15,7 @@ function EkskulPage() {
 
   const fetchEkskul = async () => {
     try {
-      const res = await axios.get(
-        "/api/ekskul"
-      );
+      const res = await axios.get("http://localhost:5000/api/ekskul");
       setEkskulList(res.data);
     } catch (error) {
       console.error("Gagal mengambil data ekskul:", error);

@@ -637,7 +637,7 @@ const handleNext =
 
         const response =
           await fetch(
-            "/api/test/rekomendasi",
+            "http://localhost:5000/api/test/rekomendasi",
             {
               method:
                 "POST",
