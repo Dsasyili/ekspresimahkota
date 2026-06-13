@@ -11,7 +11,7 @@ import TestPage from "./pages/TestPage";
 import EkskulPage from "./pages/EkskulPage";
 import KeterampilanPage from "./pages/KeterampilanPage";
 import KontakPage from "./pages/Kontakpage";
-import Login from "./pages/login";
+import Login from "./pages/Login";
 import AdminDashboard from "./pages/AdminDashboard";
 import AdminEkskul from "./pages/AdminEkskul";
 
