@@ -667,6 +667,10 @@
     font-size: 17px;
   }
 
+  .loading-content h2 {
+    font-size: 22px;
+  }
+
   .hasil-layout {
     grid-template-columns: 1fr;
     gap: 20px;
@@ -717,6 +721,10 @@
     margin-bottom: 18px;
   }
 
+  .loading-content h2 {
+    font-size: 22px;
+  }
+
   .back-btn svg {
     font-size: 18px;
   }
@@ -751,6 +759,10 @@
   .hasil-card h1 {
     font-size: 36px;
     line-height: 1.2;
+  }
+
+  .loading-content h2 {
+    font-size: 22px;
   }
 
   .test-page {

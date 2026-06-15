@@ -50,6 +50,11 @@ function TestPage() {
     setSelectedAnswer("");
   }, [step]);
 
+  /* SCROLL KE ATAS SETIAP GANTI STEP */
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [step]);
+
   /* PERTANYAAN EKSKUL WAJIB */
   const wajibQuestions = [
     {
@@ -625,49 +630,29 @@ const handleNext =
       totalQuestion +
         2;
 
-    if (
-      isLastQuestion
-    ) {
+    if (isLastQuestion) {
 
       try {
 
-        setLoading(
-          true
+        // reset hasil lama
+        setBestMatch(null);
+
+        // tampilkan loading DULU
+        setLoading(true);
+
+        // pindah ke result page loading
+        setStep(totalQuestion + 3);
+
+        // kasih waktu render UI dulu
+        await new Promise((resolve) =>
+          setTimeout(resolve, 100)
         );
 
-        console.log(
-          "DATA DIKIRIM:",
-          updatedJawaban
-        );
+        // fetch API + minimum loading 5 detik
+        const [response] =
+          await Promise.all([
 
-        const response = await fetch(
-          `${import.meta.env.VITE_API_URL}/api/test/rekomendasi`,
-            {
-              method:
-                "POST",
-              headers:
-                {
-                  "Content-Type":
-                    "application/json"
-                },
-              body:
-                JSON.stringify(
-                  updatedJawaban
-                )
-            }
-          );
-
-        try {
-
-          setLoading(true);
-
-          // pindah dulu ke halaman result
-          setStep(
-            totalQuestion + 3
-          );
-
-          const response =
-            await fetch(
+            fetch(
               `${import.meta.env.VITE_API_URL}/api/test/rekomendasi`,
               {
                 method: "POST",
@@ -679,60 +664,57 @@ const handleNext =
                   updatedJawaban
                 )
               }
-            );
+            ),
 
-          const data =
-            await response.json();
+            // minimum loading 5 detik
+            new Promise((resolve) =>
+              setTimeout(resolve, 5000)
+            )
+          ]);
 
-          console.log(
-            "HASIL API:",
-            data
-          );
-
-          if (!response.ok) {
-
-            Swal.fire({
-              icon: "error",
-              title: "Oops",
-              text:
-                data.message ||
-                "Gagal mendapatkan rekomendasi"
-            });
-
-            return;
-          }
-
-          setBestMatch(data);
-
-        } catch (error) {
-
-          console.log(error);
-
-        } finally {
-
-          setLoading(false);
-        }
-
-      } catch (
-        error
-      ) {
+        const data =
+          await response.json();
 
         console.log(
-          error
+          "HASIL API:",
+          data
         );
+
+        if (!response.ok) {
+
+          Swal.fire({
+            icon: "error",
+            title: "Oops",
+            text:
+              data.message ||
+              "Gagal mendapatkan rekomendasi"
+          });
+
+          return;
+        }
+
+        setBestMatch(data);
+
+      } catch (error) {
+
+        console.log(error);
+
+        Swal.fire({
+          icon: "error",
+          title: "Error",
+          text:
+            "Terjadi kesalahan saat mencari rekomendasi"
+        });
 
       } finally {
 
-        setLoading(
-          false
-        );
+        setLoading(false);
       }
 
     } else {
 
       setStep(
-        (prev) =>
-          prev + 1
+        (prev) => prev + 1
       );
     }
   };
@@ -1180,11 +1162,11 @@ return (
                     <div className="loading-spinner"></div>
 
                     <h2>
-                      Sedang mencari ekskul terbaik untuk kamu 🚀
+                      Mencari ekskul terbaik untuk kamu 🚀
                     </h2>
 
                     <p>
-                      Kami sedang mencocokkan jawabanmu
+                      Sabar ya,  sedang mencocokkan jawabanmu
                       dengan ekskul yang paling sesuai
                     </p>
 
