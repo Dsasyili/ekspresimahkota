@@ -37,16 +37,20 @@ function Login() {
     e.preventDefault();
 
     try {
-      const res = await fetch("https://ekspresimahkota-production-f6bc.up.railway.app/login", {
+      const res = await fetch(
+      "https://ekspresimahkota-production-f6bc.up.railway.app/api/auth/login",
+      {
         method: "POST",
         headers: {
-          "Content-Type": "application/json"
+          "Content-Type":
+            "application/json"
         },
         body: JSON.stringify({
           email,
           password
         })
-      });
+      }
+    )
 
       const data = await res.json();
 
@@ -97,12 +101,17 @@ function Login() {
         <form onSubmit={handleLogin}>
           {/* EMAIL */}
           <div className="login-input-group">
-            <label className="input-label">
+            <label
+              htmlFor="email"
+              className="input-label"
+            >
               Email <span className="required">*</span>
             </label>
 
             <input
-              type="text"
+              id="email"
+              name="email"
+              type="email"
               placeholder="contoh@gmail.com"
               value={email}
               onChange={(e) =>
@@ -114,12 +123,17 @@ function Login() {
 
           {/* PASSWORD */}
           <div className="login-input-group">
-            <label className="input-label">
+            <label
+              htmlFor="password"
+              className="input-label"
+            >
               Password <span className="required">*</span>
             </label>
 
             <div className="password-group">
               <input
+                id="password"
+                name="password"
                 type={
                   showPassword
                     ? "text"

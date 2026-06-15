@@ -122,11 +122,11 @@
 @media (max-width: 768px) {
   .navbar {
     width: 95%;
-    padding: 15px 20px;
+    padding: 12px 30px;
   }
 
   .menu {
-     position: absolute;
+    position: absolute;
     top: 88px;
     right: 12px;
     background: white;

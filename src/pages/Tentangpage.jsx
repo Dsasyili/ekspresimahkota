@@ -12,7 +12,7 @@ function TentangPage() {
 
           {/* KIRI - GAMBAR */}
           <div className="tentangpage-image">
-            <img src="/tentang-img.png" alt="Tentang Kami" />
+            <img src="/tentang-img1.jpg" alt="Tentang Kami" />
           </div>
 
           {/* KANAN - TEXT */}

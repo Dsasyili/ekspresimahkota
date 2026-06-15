@@ -4,7 +4,9 @@ import db from "../db.js";
 const router = express.Router();
 
 /* FORWARD CHAINING + ELIMINASI */
-router.post("/rekomendasi", (req, res) => {
+router.post(
+  "/rekomendasi",
+  async (req, res) => {
 
   const { jenis_ekskul } = req.body;
   let jawabanUser = [];
@@ -224,7 +226,10 @@ const getTahapEliminasi = (
 
         if (err) {
 
-          console.log(err);
+          console.error(
+            "TEST ERROR:",
+            err
+          );
 
           return res.status(500).json({
             message: "Server Error"
@@ -471,7 +476,10 @@ getTahapEliminasi(
   (err, tahapDB) => {
 
     if (err) {
-      console.log(err);
+      console.error(
+        "TEST ERROR:",
+        err
+      );
 
       return res.status(500).json({
         message:
