@@ -196,16 +196,20 @@ function AdminEkskul() {
       if (result.isConfirmed) {
         sessionStorage.removeItem("token");
 
-        window.location.replace("/login");
-
         Swal.fire({
           toast: true,
           position: "top-end",
           icon: "success",
           title: "Berhasil logout 👋",
           showConfirmButton: false,
-          timer: 2000
+          timer: 1200
         });
+
+        setTimeout(() => {
+          navigate("/login", {
+            replace: true
+          });
+        }, 1200);
       }
     });
   };

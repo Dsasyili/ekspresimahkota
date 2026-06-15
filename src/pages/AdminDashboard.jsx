@@ -28,40 +28,37 @@ function AdminDashboard() {
   }, []);
 
   /* LOGOUT */
-const handleLogout =
-  () => {
+  const handleLogout = () => {
     Swal.fire({
-      title:
-        "Konfirmasi Logout",
-      text:
-        "Apakah Anda yakin ingin logout?",
+      title: "Konfirmasi Logout",
+      text: "Apakah Anda yakin ingin logout?",
       icon: "warning",
       showCancelButton: true,
-      confirmButtonColor:
-        "#d33",
-      cancelButtonColor:
-        "#949191",
-      confirmButtonText:
-        "Logout",
-      cancelButtonText:
-        "Batal",
+      confirmButtonColor: "#d33",
+      cancelButtonColor: "#949191",
+      confirmButtonText: "Logout",
+      cancelButtonText: "Batal",
       reverseButtons: true
-    }).then(
-      (result) => {
-        if (
-          result.isConfirmed
-        ) {
-          sessionStorage.removeItem(
-            "token"
-          );
+    }).then((result) => {
+      if (result.isConfirmed) {
+        sessionStorage.removeItem("token");
 
-          // ganti halaman tanpa history
-          window.location.replace(
-            "/login"
-          );
-        }
+        Swal.fire({
+          toast: true,
+          position: "top-end",
+          icon: "success",
+          title: "Berhasil logout 👋",
+          showConfirmButton: false,
+          timer: 1200
+        });
+
+        setTimeout(() => {
+          navigate("/login", {
+            replace: true
+          });
+        }, 1200);
       }
-    );
+    });
   };
   
   return (
