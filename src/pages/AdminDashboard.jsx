@@ -16,7 +16,9 @@ function AdminDashboard() {
   useEffect(() => {
     const fetchTotalEkskul = async () => {
       try {
-        const res = await axios.get("http://localhost:5000/api/ekskul/count");
+        const res = await axios.get(
+          `${import.meta.env.VITE_API_URL}/api/ekskul/count`
+        );
         setTotalEkskul(res.data.total);
       } catch (error) {
         console.error("Gagal ambil total ekskul:", error);
