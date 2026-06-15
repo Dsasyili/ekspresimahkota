@@ -13,7 +13,7 @@ dotenv.config();
 const app = express();
 
 /* =========================
-   CORS FIX (IMPORTANT)
+   CORS CONFIG (SAFE VERSION)
 ========================= */
 
 const allowedOrigins = [
@@ -24,35 +24,27 @@ const allowedOrigins = [
 app.use(
   cors({
     origin: function (origin, callback) {
-      // allow requests with no origin (like mobile apps or curl)
+      // allow REST tools / server-to-server
       if (!origin) return callback(null, true);
 
       if (allowedOrigins.includes(origin)) {
         return callback(null, true);
-      } else {
-        return callback(new Error("Not allowed by CORS"));
       }
+
+      console.log("❌ Blocked by CORS:", origin);
+      return callback(null, false);
     },
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-    allowedHeaders: ["Content-Type", "Authorization"],
-    credentials: true
+    allowedHeaders: ["Content-Type", "Authorization"]
   })
 );
-
-// Handle preflight request
-app.options("*", cors());
 
 /* =========================
    MIDDLEWARE
 ========================= */
 
 app.use(express.json());
-
-app.use(
-  express.urlencoded({
-    extended: true
-  })
-);
+app.use(express.urlencoded({ extended: true }));
 
 /* =========================
    STATIC FILE
@@ -60,9 +52,7 @@ app.use(
 
 app.use(
   "/uploads",
-  express.static(
-    path.join(process.cwd(), "public/uploads")
-  )
+  express.static(path.join(process.cwd(), "public/uploads"))
 );
 
 /* =========================
@@ -74,11 +64,29 @@ app.use("/api/ekskul", ekskulRoutes);
 app.use("/api/test", testRoutes);
 
 /* =========================
-   TEST ROUTE
+   ROOT TEST
 ========================= */
 
 app.get("/", (req, res) => {
   res.send("🚀 Backend Mahkota Ekskul Running");
+});
+
+/* =========================
+   HEALTH CHECK (optional tapi bagus)
+========================= */
+
+app.get("/health", (req, res) => {
+  res.json({ status: "ok" });
+});
+
+/* =========================
+   404 HANDLER (SAFE)
+========================= */
+
+app.use((req, res) => {
+  res.status(404).json({
+    message: "Route not found"
+  });
 });
 
 /* =========================
