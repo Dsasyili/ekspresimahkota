@@ -4,10 +4,16 @@ import Swal from "sweetalert2";
 import axios from "axios";
 import "./AdminEkskul.css";
 import useAdminProtection from "../hooks/useAdminProtection";
-import { FiHome,FiBook,FiFileText,FiLogOut,FiUser,FiEdit2,FiTrash2,FiChevronLeft,FiChevronRight} from "react-icons/fi";
+import {
+  FiHome, FiBook, FiFileText, FiLogOut, FiUser,
+  FiEdit2, FiTrash2, FiChevronLeft, FiChevronRight
+} from "react-icons/fi";
+
+const API = import.meta.env.VITE_API_URL;
 
 function AdminEkskul() {
   const navigate = useNavigate();
+
   const [openSidebar, setOpenSidebar] = useState(false);
   const [data, setData] = useState([]);
   const [showModal, setShowModal] = useState(false);
@@ -16,6 +22,7 @@ function AdminEkskul() {
   const [previewFoto, setPreviewFoto] = useState(null);
   const [page, setPage] = useState(1);
   const perPage = 5;
+
   const [form, setForm] = useState({
     nama: "",
     deskripsi: "",
@@ -24,10 +31,16 @@ function AdminEkskul() {
 
   useAdminProtection();
 
-  // FETCH DATA
+  /* =========================
+     FETCH DATA
+  ========================= */
   const fetchData = async () => {
-    const res = await axios.get("http://localhost:5000/api/ekskul");
-    setData(res.data);
+    try {
+      const res = await axios.get(`${API}/api/ekskul`);
+      setData(res.data);
+    } catch (err) {
+      console.error("Gagal fetch ekskul:", err);
+    }
   };
 
   useEffect(() => {
@@ -42,11 +55,12 @@ function AdminEkskul() {
     };
   }, [previewFoto]);
 
-  // HANDLE INPUT
+  /* =========================
+     HANDLE INPUT
+  ========================= */
   const handleChange = (e) => {
     if (e.target.name === "foto") {
       const file = e.target.files[0];
-
       setForm({ ...form, foto: file });
 
       if (file) {
@@ -57,71 +71,72 @@ function AdminEkskul() {
     }
   };
 
-  // SUBMIT
+  /* =========================
+     SUBMIT (CREATE / UPDATE)
+  ========================= */
   const handleSubmit = async (e) => {
-  e.preventDefault();
+    e.preventDefault();
 
-  try {
-    const formData = new FormData();
-    formData.append("nama", form.nama);
-    formData.append("deskripsi", form.deskripsi);
+    try {
+      const formData = new FormData();
+      formData.append("nama", form.nama);
+      formData.append("deskripsi", form.deskripsi);
 
-    if (form.foto) {
-      formData.append("foto", form.foto);
-    }
+      if (form.foto) {
+        formData.append("foto", form.foto);
+      }
 
-    console.log("EDIT ID:", editId);
+      let res;
 
-    let res;
-
-    if (isEdit) {
+      if (isEdit) {
         if (!editId) {
-            Swal.fire("Error", "ID tidak ditemukan", "error");
-            return;
+          Swal.fire("Error", "ID tidak ditemukan", "error");
+          return;
         }
 
         res = await axios.put(
-            `http://localhost:5000/api/ekskul/${editId}`,
-            formData,
-            {
+          `${API}/api/ekskul/${editId}`,
+          formData,
+          {
             headers: {
-                "Content-Type": "multipart/form-data",
-            },
+              "Content-Type": "multipart/form-data"
             }
+          }
         );
-    } else {
-      res = await axios.post(
-        "http://localhost:5000/api/ekskul",
-        formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        }
+      } else {
+        res = await axios.post(
+          `${API}/api/ekskul`,
+          formData,
+          {
+            headers: {
+              "Content-Type": "multipart/form-data"
+            }
+          }
+        );
+      }
+
+      Swal.fire("Berhasil!", res.data.message, "success");
+
+      setForm({ nama: "", deskripsi: "", foto: null });
+      setPreviewFoto(null);
+      setShowModal(false);
+      setIsEdit(false);
+      setEditId(null);
+
+      fetchData();
+    } catch (err) {
+      console.error(err);
+      Swal.fire(
+        "Error",
+        err.response?.data?.message || "Gagal menyimpan data",
+        "error"
       );
     }
+  };
 
-    Swal.fire("Berhasil!", res.data.message, "success");
-
-    setForm({ nama: "", deskripsi: "", foto: null });
-    setPreviewFoto(null);
-    setShowModal(false);
-    setIsEdit(false);
-    setEditId(null);
-
-    fetchData();
-  } catch (err) {
-    console.log(err.response?.data || err.message);
-
-    Swal.fire(
-      "Error",
-      err.response?.data?.message || "Gagal menyimpan data",
-      "error"
-    );
-  }
-};
-
-  // DELETE
+  /* =========================
+     DELETE
+  ========================= */
   const handleDelete = (id) => {
     Swal.fire({
       title: "Hapus data?",
@@ -135,32 +150,37 @@ function AdminEkskul() {
       reverseButtons: true
     }).then(async (result) => {
       if (result.isConfirmed) {
-        await axios.delete(`http://localhost:5000/api/ekskul/${id}`);
-        fetchData();
+        try {
+          await axios.delete(`${API}/api/ekskul/${id}`);
+          fetchData();
 
-        Swal.fire("Berhasil!", "Data berhasil dihapus", "success");
+          Swal.fire("Berhasil!", "Data berhasil dihapus", "success");
+        } catch (err) {
+          console.error(err);
+        }
       }
     });
   };
 
-  // EDIT
-    const handleEdit = (item) => {
-        console.log("EDIT ITEM:", item);
+  /* =========================
+     EDIT
+  ========================= */
+  const handleEdit = (item) => {
+    setForm({
+      nama: item.nama || "",
+      deskripsi: item.deskripsi || "",
+      foto: null
+    });
 
-        setForm({
-            nama: item.nama || "",
-            deskripsi: item.deskripsi || "",
-            foto: null
-        });
+    setPreviewFoto(item.foto || null);
+    setEditId(item.id);
+    setIsEdit(true);
+    setShowModal(true);
+  };
 
-        setPreviewFoto(item.foto || null);
-
-        setEditId(item.id);
-        setIsEdit(true);
-        setShowModal(true);
-    };
-
-  // LOGOUT
+  /* =========================
+     LOGOUT
+  ========================= */
   const handleLogout = () => {
     Swal.fire({
       title: "Konfirmasi Logout",
@@ -174,22 +194,17 @@ function AdminEkskul() {
       reverseButtons: true
     }).then((result) => {
       if (result.isConfirmed) {
-        sessionStorage.removeItem(
-          "token"
-        );
+        sessionStorage.removeItem("token");
 
-        window.location.replace(
-          "/login"
-        );
+        window.location.replace("/login");
 
         Swal.fire({
-            toast: true,
-            position: "top-end",
-            icon: "success",
-            title: "Berhasil logout 👋",
-            text: "Silakan login kembali, untuk mengakses.",
-            showConfirmButton: false,
-            showCloseButton: true
+          toast: true,
+          position: "top-end",
+          icon: "success",
+          title: "Berhasil logout 👋",
+          showConfirmButton: false,
+          timer: 2000
         });
       }
     });

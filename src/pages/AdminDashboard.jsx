@@ -5,6 +5,7 @@ import Swal from "sweetalert2";
 import axios from "axios";
 import useAdminProtection from "../hooks/useAdminProtection";
 import { FiUser, FiHome, FiBook, FiUsers, FiFileText, FiLogOut, FiBookOpen, FiUserPlus} from "react-icons/fi";
+const API = import.meta.env.VITE_API_URL;
 
 function AdminDashboard() {
   const navigate = useNavigate();
@@ -16,9 +17,7 @@ function AdminDashboard() {
   useEffect(() => {
     const fetchTotalEkskul = async () => {
       try {
-        const res = await axios.get(
-          `${import.meta.env.VITE_API_URL}/api/ekskul/count`
-        );
+        const res = await axios.get(`${API}/api/ekskul/count`);
         setTotalEkskul(res.data.total);
       } catch (error) {
         console.error("Gagal ambil total ekskul:", error);

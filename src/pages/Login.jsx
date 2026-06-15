@@ -3,6 +3,7 @@ import "./Login.css";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import {FiEye,FiEyeOff,FiArrowLeft} from "react-icons/fi";
+const API = import.meta.env.VITE_API_URL;
 
 function Login() {
   const [email, setEmail] =
@@ -32,68 +33,49 @@ function Login() {
     );
   }, []);
 
-  const handleLogin =
-    async (e) => {
-      e.preventDefault();
+  const handleLogin = async (e) => {
+    e.preventDefault();
 
-      try {
-        const response =
-          await fetch(
-            "http://localhost:5000/api/auth/login",
-            {
-              method: "POST",
-              headers: {
-                "Content-Type":
-                  "application/json"
-              },
-              body: JSON.stringify(
-                {
-                  email,
-                  password
-                }
-              )
-            }
-          );
-
-        const data =
-          await response.json();
-
-        if (response.ok) {
-          // simpan token
-          sessionStorage.setItem(
-            "token",
-            data.token
-          );
-
-          window.location.replace(
-            "/admin"
-          );
-        } else {
-          Swal.fire({
-            icon: "error",
-            title:
-              "Login Gagal",
-            text:
-              data.message ||
-              "Email atau password salah",
-            confirmButtonColor:
-              "#d33"
-          });
+    try {
+      const response = await fetch(
+        `${API}/api/auth/login`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            email,
+            password
+          })
         }
-      } catch (error) {
-        console.error(error);
+      );
 
+      const data = await response.json();
+
+      if (response.ok) {
+        sessionStorage.setItem("token", data.token);
+
+        window.location.replace("/admin");
+      } else {
         Swal.fire({
           icon: "error",
-          title:
-            "Server Error",
-          text:
-            "Terjadi kesalahan pada server",
-          confirmButtonColor:
-            "#d33"
+          title: "Login Gagal",
+          text: data.message || "Email atau password salah",
+          confirmButtonColor: "#d33"
         });
       }
-    };
+    } catch (error) {
+      console.error(error);
+
+      Swal.fire({
+        icon: "error",
+        title: "Server Error",
+        text: "Terjadi kesalahan pada server",
+        confirmButtonColor: "#d33"
+      });
+    }
+  };
 
   return (
     <div className="login-wrapper">
