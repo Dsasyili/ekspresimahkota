@@ -81,15 +81,17 @@ router.get("/count", async (req, res) => {
 /* GET ALL */
 router.get("/", async (req, res) => {
   try {
-    const [result] = await db.query(
-      "SELECT * FROM ekskul"
-    );
+    const [result] = await db.query("SELECT * FROM ekskul");
+
+    const baseUrl =
+      process.env.BASE_URL ||
+      `${req.headers["x-forwarded-proto"] || req.protocol}://${req.get("host")}`;
 
     res.json(
       result.map((item) => ({
         ...item,
         foto: item.foto
-          ? `${req.protocol}://${req.get("host")}/uploads/${item.foto}`
+          ? `${baseUrl}/uploads/${item.foto}`
           : null,
       }))
     );

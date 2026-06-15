@@ -37,43 +37,29 @@ function Login() {
     e.preventDefault();
 
     try {
-      const response = await fetch(
-        `${API}/api/auth/login`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json"
-          },
-          body: JSON.stringify({
-            email,
-            password
-          })
-        }
-      );
-
-      const data = await response.json();
-
-      if (response.ok) {
-        sessionStorage.setItem("token", data.token);
-
-        window.location.replace("/admin");
-      } else {
-        Swal.fire({
-          icon: "error",
-          title: "Login Gagal",
-          text: data.message || "Email atau password salah",
-          confirmButtonColor: "#d33"
-        });
-      }
-    } catch (error) {
-      console.error(error);
-
-      Swal.fire({
-        icon: "error",
-        title: "Server Error",
-        text: "Terjadi kesalahan pada server",
-        confirmButtonColor: "#d33"
+      const res = await fetch("https://ekspresimahkota-production-f6bc.up.railway.app/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          email,
+          password
+        })
       });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        alert(data.message);
+        return;
+      }
+
+      alert("Login berhasil");
+      console.log(data.user);
+
+    } catch (err) {
+      console.error(err);
     }
   };
 
