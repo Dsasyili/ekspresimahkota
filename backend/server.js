@@ -13,7 +13,7 @@ dotenv.config();
 const app = express();
 
 /* =========================
-   CORS CONFIG (SAFE VERSION)
+   CORS
 ========================= */
 
 const allowedOrigins = [
@@ -23,31 +23,23 @@ const allowedOrigins = [
 
 app.use(
   cors({
-    origin: function (origin, callback) {
-      // allow REST tools / server-to-server
+    origin: (origin, callback) => {
       if (!origin) return callback(null, true);
-
       if (allowedOrigins.includes(origin)) {
         return callback(null, true);
       }
-
-      console.log("❌ Blocked by CORS:", origin);
-      return callback(null, false);
+      return callback(null, true); 
     },
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"]
   })
 );
 
-/* =========================
-   MIDDLEWARE
-========================= */
-
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 /* =========================
-   STATIC FILE
+   STATIC
 ========================= */
 
 app.use(
@@ -64,29 +56,11 @@ app.use("/api/ekskul", ekskulRoutes);
 app.use("/api/test", testRoutes);
 
 /* =========================
-   ROOT TEST
+   TEST
 ========================= */
 
 app.get("/", (req, res) => {
   res.send("🚀 Backend Mahkota Ekskul Running");
-});
-
-/* =========================
-   HEALTH CHECK (optional tapi bagus)
-========================= */
-
-app.get("/health", (req, res) => {
-  res.json({ status: "ok" });
-});
-
-/* =========================
-   404 HANDLER (SAFE)
-========================= */
-
-app.use((req, res) => {
-  res.status(404).json({
-    message: "Route not found"
-  });
 });
 
 /* =========================
