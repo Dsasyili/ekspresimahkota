@@ -668,7 +668,7 @@ const handleNext =
 
             // minimum loading 5 detik
             new Promise((resolve) =>
-              setTimeout(resolve, 5000)
+              setTimeout(resolve, 3000)
             )
           ]);
 

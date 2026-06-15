@@ -33,37 +33,83 @@ function Login() {
     );
   }, []);
 
-  const handleLogin = async (e) => {
+  const handleLogin =
+  async (e) => {
+
     e.preventDefault();
 
     try {
-      const res = await fetch(
-      "https://ekspresimahkota-production-f6bc.up.railway.app/api/auth/login",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type":
-            "application/json"
-        },
-        body: JSON.stringify({
-          email,
-          password
-        })
-      }
-    )
 
-      const data = await res.json();
+      const res =
+        await fetch(
+          `${API}/api/auth/login`,
+          {
+            method:
+              "POST",
+            headers: {
+              "Content-Type":
+                "application/json"
+            },
+            body:
+              JSON.stringify({
+                email,
+                password
+              })
+          }
+        );
+
+      const data =
+        await res.json();
+
+      console.log(
+        "LOGIN RESPONSE:",
+        data
+      );
 
       if (!res.ok) {
-        alert(data.message);
+
+        Swal.fire({
+          icon: "error",
+          title:
+            "Login Gagal",
+          text:
+            data.message
+        });
+
         return;
       }
 
-      alert("Login berhasil");
-      console.log(data.user);
+      sessionStorage.setItem(
+        "token",
+        data.token
+      );
+
+      Swal.fire({
+        icon: "success",
+        title:
+          "Berhasil",
+        text:
+          "Login berhasil"
+      });
+
+      navigate(
+        "/admin"
+      );
 
     } catch (err) {
-      console.error(err);
+
+      console.error(
+        "LOGIN ERROR:",
+        err
+      );
+
+      Swal.fire({
+        icon: "error",
+        title:
+          "Oops",
+        text:
+          "Tidak dapat terhubung ke server"
+      });
     }
   };
 

@@ -5,43 +5,161 @@ import jwt from "jsonwebtoken";
 
 const router = express.Router();
 
-// REGISTER ADMIN
-router.post("/register", async (req, res) => {
-  const { username, email, password } = req.body;
+/* =========================
+   REGISTER ADMIN
+========================= */
+router.post(
+  "/register",
+  async (req, res) => {
 
-  const hashedPassword = await bcrypt.hash(password, 10);
+    try {
 
-  db.query(
-    "INSERT INTO users (username, email, password) VALUES (?, ?, ?)",
-    [username, email, hashedPassword],
-    (err, result) => {
-      if (err) return res.status(500).json(err);
-      res.json({ message: "User registered successfully" });
+      const {
+        username,
+        email,
+        password
+      } = req.body;
+
+      const hashedPassword =
+        await bcrypt.hash(
+          password,
+          10
+        );
+
+      await db.query(
+        `
+        INSERT INTO users
+        (username, email, password)
+        VALUES (?, ?, ?)
+        `,
+        [
+          username,
+          email,
+          hashedPassword
+        ]
+      );
+
+      res.json({
+        message:
+          "User registered successfully"
+      });
+
+    } catch (err) {
+
+      console.error(
+        "REGISTER ERROR:",
+        err
+      );
+
+      res.status(500).json({
+        message:
+          "Server Error"
+      });
     }
-  );
-});
+  }
+);
 
-// LOGIN
-router.post("/login", (req, res) => {
-  const { email, password } = req.body;
+/* =========================
+   LOGIN
+========================= */
+router.post(
+  "/login",
+  async (req, res) => {
 
-  db.query("SELECT * FROM users WHERE email = ?", [email], async (err, result) => {
-    if (err) return res.status(500).json(err);
-    if (result.length === 0) return res.status(404).json({ message: "User not found" });
+    try {
 
-    const user = result[0];
+      const {
+        email,
+        password
+      } = req.body;
 
-    const validPassword = await bcrypt.compare(password, user.password);
-    if (!validPassword) return res.status(401).json({ message: "Wrong password" });
+      console.log(
+        "LOGIN REQUEST:",
+        email
+      );
 
-    const token = jwt.sign(
-      { id: user.id, role: user.role },
-      process.env.JWT_SECRET,
-      { expiresIn: "1h" }
-    );
+      const [result] =
+        await db.query(
+          `
+          SELECT *
+          FROM users
+          WHERE email = ?
+          `,
+          [email]
+        );
 
-    res.json({ token });
-  });
-});
+      if (
+        result.length === 0
+      ) {
+
+        return res
+          .status(404)
+          .json({
+            message:
+              "User not found"
+          });
+      }
+
+      const user =
+        result[0];
+
+      const validPassword =
+        await bcrypt.compare(
+          password,
+          user.password
+        );
+
+      if (
+        !validPassword
+      ) {
+
+        return res
+          .status(401)
+          .json({
+            message:
+              "Wrong password"
+          });
+      }
+
+      const token =
+        jwt.sign(
+          {
+            id: user.id,
+            role:
+              user.role
+          },
+          process.env
+            .JWT_SECRET,
+          {
+            expiresIn:
+              "1h"
+          }
+        );
+
+      res.json({
+        token,
+        user: {
+          id: user.id,
+          username:
+            user.username,
+          email:
+            user.email
+        }
+      });
+
+    } catch (err) {
+
+      console.error(
+        "LOGIN ERROR:",
+        err
+      );
+
+      res.status(500).json({
+        message:
+          "Server Error"
+      });
+    }
+  }
+);
 
 export default router;
