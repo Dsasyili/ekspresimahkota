@@ -112,6 +112,7 @@ function Login() {
               id="email"
               name="email"
               type="email"
+              autoComplete="email"
               placeholder="contoh@gmail.com"
               value={email}
               onChange={(e) =>

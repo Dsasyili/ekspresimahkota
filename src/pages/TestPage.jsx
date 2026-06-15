@@ -635,6 +635,11 @@ const handleNext =
           true
         );
 
+        console.log(
+          "DATA DIKIRIM:",
+          updatedJawaban
+        );
+
         const response = await fetch(
           `${import.meta.env.VITE_API_URL}/api/test/rekomendasi`,
             {
@@ -652,17 +657,61 @@ const handleNext =
             }
           );
 
-        const data =
-          await response.json();
+        try {
 
-        setBestMatch(
-          data
-        );
+          setLoading(true);
 
-        setStep(
-          totalQuestion +
-            3
-        );
+          // pindah dulu ke halaman result
+          setStep(
+            totalQuestion + 3
+          );
+
+          const response =
+            await fetch(
+              `${import.meta.env.VITE_API_URL}/api/test/rekomendasi`,
+              {
+                method: "POST",
+                headers: {
+                  "Content-Type":
+                    "application/json"
+                },
+                body: JSON.stringify(
+                  updatedJawaban
+                )
+              }
+            );
+
+          const data =
+            await response.json();
+
+          console.log(
+            "HASIL API:",
+            data
+          );
+
+          if (!response.ok) {
+
+            Swal.fire({
+              icon: "error",
+              title: "Oops",
+              text:
+                data.message ||
+                "Gagal mendapatkan rekomendasi"
+            });
+
+            return;
+          }
+
+          setBestMatch(data);
+
+        } catch (error) {
+
+          console.log(error);
+
+        } finally {
+
+          setLoading(false);
+        }
 
       } catch (
         error
@@ -879,41 +928,37 @@ return (
 
             <p>Isi data dirimu sebelum memulai test rekomendasi ekskul 🚀</p>
 
-            <form
-              onSubmit={
-                handleSubmit
-              }
-            >
-
+            <form onSubmit={handleSubmit}>
               <div className="input-group">
-
-                <label>Nama</label>
+                <label htmlFor="nama">
+                  Nama
+                </label>
 
                 <input
+                  id="nama"
+                  name="nama"
                   type="text"
                   placeholder="Masukkan nama kamu"
                   value={nama}
                   onChange={(e) =>
-                    setNama(
-                      e.target.value
-                    )
+                    setNama(e.target.value)
                   }
                 />
-
               </div>
 
               <div className="input-group">
-                <label>Gender</label>
+                <label htmlFor="gender">
+                  Gender
+                </label>
 
                 <select
+                  id="gender"
+                  name="gender"
                   value={gender}
                   onChange={(e) =>
-                    setGender(
-                      e.target.value
-                    )
+                    setGender(e.target.value)
                   }
                 >
-
                   <option value="">
                     Pilih Gender
                   </option>
@@ -925,7 +970,6 @@ return (
                   <option value="P">
                     Perempuan
                   </option>
-
                 </select>
               </div>
 
@@ -1127,7 +1171,26 @@ return (
           {step === totalQuestion + 3 && (
             <div className="question-container">
 
-              {bestMatch ? (
+              {console.log(bestMatch)}
+
+              {loading ? (
+                <div className="loading-box">
+                  <div className="loading-content">
+
+                    <div className="loading-spinner"></div>
+
+                    <h2>
+                      Sedang mencari ekskul terbaik untuk kamu 🚀
+                    </h2>
+
+                    <p>
+                      Kami sedang mencocokkan jawabanmu
+                      dengan ekskul yang paling sesuai
+                    </p>
+
+                  </div>
+                </div>
+              ) : bestMatch ? (
                 <div className="hasil-layout">
 
                   {/* KIRI */}
@@ -1259,35 +1322,36 @@ return (
 
               )}
 
-              <button
-                className="btn btn-repeat"
-                onClick={() => {
-                  setStep(1);
-                  setNama("");
-                  setGender("");
-                  setSelectedAnswer("");
-                  setBestMatch(null);
-                  setJawaban({
-                    jenis_ekskul: "",
+              {!loading && (
+                <button
+                  className="btn btn-repeat"
+                  onClick={() => {
+                    setStep(1);
+                    setNama("");
+                    setGender("");
+                    setSelectedAnswer("");
+                    setBestMatch(null);
 
-                    kp: "",
-                    ck: "",
-                    sf: "",
-                    mv: "",
-                    ct: "",
-
-                    bk: "",
-                    pk: "",
-                    lkg: "",
-                    ba: "",
-                    fa: "",
-                    ti: "",
-                    tk: ""
-                  });
-                }}
-              >
-                Ulangi Test
-              </button>
+                    setJawaban({
+                      jenis_ekskul: "",
+                      kp: "",
+                      ck: "",
+                      sf: "",
+                      mv: "",
+                      ct: "",
+                      bk: "",
+                      pk: "",
+                      lkg: "",
+                      ba: "",
+                      fa: "",
+                      ti: "",
+                      tk: ""
+                    });
+                  }}
+                >
+                  Ulangi Test
+                </button>
+              )}
             </div>
           )}
           </div>

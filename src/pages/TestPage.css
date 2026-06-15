@@ -384,6 +384,46 @@
   100% { left: 120%; }
 }
 
+/* LOADING RESULT */
+.loading-box {
+  min-height: 420px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.loading-content {
+  max-width: 450px;
+}
+
+.loading-content h2 {
+  font-size: 28px;
+  margin-bottom: 12px;
+}
+
+.loading-content p {
+  color: #666;
+  line-height: 1.6;
+}
+
+/* SPINNER */
+.loading-spinner {
+  width: 65px;
+  height: 65px;
+  border: 6px solid #e5e5e5;
+  border-top: 6px solid #7b61ff;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+  margin: 0 auto 24px;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
 .nama-user {
   color: #1158b4;
   font-weight: 600;
