@@ -4,16 +4,12 @@ import Swal from "sweetalert2";
 import axios from "axios";
 import "./AdminEkskul.css";
 import useAdminProtection from "../hooks/useAdminProtection";
-import {
-  FiHome, FiBook, FiFileText, FiLogOut, FiUser,
-  FiEdit2, FiTrash2, FiChevronLeft, FiChevronRight
-} from "react-icons/fi";
+import {FiHome, FiBook, FiFileText, FiLogOut, FiUser,FiEdit2, FiTrash2, FiChevronLeft, FiChevronRight} from "react-icons/fi";
 
 const API = import.meta.env.VITE_API_URL;
 
 function AdminEkskul() {
   const navigate = useNavigate();
-
   const [openSidebar, setOpenSidebar] = useState(false);
   const [data, setData] = useState([]);
   const [showModal, setShowModal] = useState(false);
@@ -22,7 +18,6 @@ function AdminEkskul() {
   const [previewFoto, setPreviewFoto] = useState(null);
   const [page, setPage] = useState(1);
   const perPage = 5;
-
   const [form, setForm] = useState({
     nama: "",
     deskripsi: "",
@@ -31,9 +26,7 @@ function AdminEkskul() {
 
   useAdminProtection();
 
-  /* =========================
-     FETCH DATA
-  ========================= */
+  /* FETCH DATA */
   const fetchData = async () => {
     try {
       const res = await axios.get(`${API}/api/ekskul`);
@@ -55,9 +48,7 @@ function AdminEkskul() {
     };
   }, [previewFoto]);
 
-  /* =========================
-     HANDLE INPUT
-  ========================= */
+  /* HANDLE INPUT */
   const handleChange = (e) => {
     if (e.target.name === "foto") {
       const file = e.target.files[0];
@@ -71,9 +62,7 @@ function AdminEkskul() {
     }
   };
 
-  /* =========================
-     SUBMIT (CREATE / UPDATE)
-  ========================= */
+  /* SUBMIT (CREATE / UPDATE) */
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -134,9 +123,7 @@ function AdminEkskul() {
     }
   };
 
-  /* =========================
-     DELETE
-  ========================= */
+  /* DELETE */
   const handleDelete = (id) => {
     Swal.fire({
       title: "Hapus data?",
@@ -162,9 +149,7 @@ function AdminEkskul() {
     });
   };
 
-  /* =========================
-     EDIT
-  ========================= */
+  /* EDIT */
   const handleEdit = (item) => {
     setForm({
       nama: item.nama || "",
@@ -178,9 +163,7 @@ function AdminEkskul() {
     setShowModal(true);
   };
 
-  /* =========================
-     LOGOUT
-  ========================= */
+  /* LOGOUT */
   const handleLogout = () => {
     Swal.fire({
       title: "Konfirmasi Logout",

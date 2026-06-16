@@ -1,4 +1,6 @@
 import { Routes, Route, useLocation } from "react-router-dom";
+
+/* Bagian Components */
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import Hero from "./components/Hero";
@@ -6,6 +8,8 @@ import TentangSection from "./components/Tentang";
 import Kegiatan from "./components/Kegiatan";
 import Kontak from "./components/Kontak";
 import ScrollToTop from "./components/ScrollToTop";
+
+/* Bagian Pages */
 import TentangPage from "./pages/Tentangpage";
 import TestPage from "./pages/TestPage";
 import EkskulPage from "./pages/EkskulPage";

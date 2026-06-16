@@ -78,7 +78,6 @@ router.get("/count", async (req, res) => {
 });
 
 /* GET ALL */
-/* GET ALL */
 router.get("/", async (req, res) => {
   try {
     const [result] = await db.query("SELECT * FROM ekskul");

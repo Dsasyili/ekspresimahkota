@@ -2,7 +2,6 @@ import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
 import path from "path";
-
 import "./db.js";
 import authRoutes from "./routes/auth.js";
 import ekskulRoutes from "./routes/ekskul.js";
@@ -12,10 +11,7 @@ dotenv.config();
 
 const app = express();
 
-/* =========================
-   CORS
-========================= */
-
+/* CORS */
 const allowedOrigins = [
   "http://localhost:5173",
   "https://ekspresimahkota.vercel.app"
@@ -38,34 +34,26 @@ app.use(
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-/* =========================
-   STATIC
-========================= */
+/* STATIC */
 
 app.use(
   "/uploads",
   express.static(path.join(process.cwd(), "public/uploads"))
 );
 
-/* =========================
-   ROUTES
-========================= */
+/* ROUTES */
 
 app.use("/api/auth", authRoutes);
 app.use("/api/ekskul", ekskulRoutes);
 app.use("/api/test", testRoutes);
 
-/* =========================
-   TEST
-========================= */
+/* TEST */
 
 app.get("/", (req, res) => {
   res.send("🚀 Backend Mahkota Ekskul Running");
 });
 
-/* =========================
-   SERVER
-========================= */
+/* SERVER */
 
 const PORT = process.env.PORT || 5000;
 

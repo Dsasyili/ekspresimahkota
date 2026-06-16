@@ -3,7 +3,7 @@ import db from "../db.js";
 
 const router = express.Router();
 
-/* FORWARD CHAINING + ELIMINASI */
+/* Forward Chaining + Eliminasi */
 router.post(
   "/rekomendasi",
   async (req, res) => {
@@ -23,9 +23,7 @@ router.post(
         req.body
       );
 
-      // ======================
       // EKSKUL WAJIB
-      // ======================
       if (
         jenis_ekskul ===
         "JE01"
@@ -42,9 +40,7 @@ router.post(
         skorMaksimal = 5;
       }
 
-      // ======================
       // EKSKUL PEMINATAN
-      // ======================
       else if (
         jenis_ekskul ===
         "JE02"
@@ -82,9 +78,7 @@ router.post(
           });
       }
 
-      // ======================
       // AMBIL PRIORITAS
-      // ======================
       const [
         prioritasResult
       ] = await db.query(
@@ -140,9 +134,7 @@ router.post(
         tahapEliminasi
       );
 
-      // ======================
       // CARI REKOMENDASI
-      // ======================
       for (
         let index = 0;
         index <
@@ -227,9 +219,7 @@ router.post(
           results
         );
 
-        // ======================
         // HASIL DITEMUKAN
-        // ======================
         if (
           results.length >
           0
@@ -295,9 +285,7 @@ router.post(
         }
       }
 
-      // ======================
       // DEFAULT WAJIB
-      // ======================
       const kategoriDefault =
         jenis_ekskul ===
         "JE01"

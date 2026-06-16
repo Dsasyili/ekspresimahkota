@@ -10,8 +10,7 @@ function ScrollToTop() {
   const location =
     useLocation();
 
-  /* AUTO SCROLL KE ATAS
-     SAAT PINDAH HALAMAN */
+  /* AUTO SCROLL KE ATAS */
   useEffect(() => {
     window.scrollTo({
       top: 0,

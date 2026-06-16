@@ -4,19 +4,11 @@ import Swal from "sweetalert2";
 import { FiArrowLeft } from "react-icons/fi";
 
 function TestPage() {
-  const [step, setStep] =
-    useState(1);
-
-  const [nama, setNama] =
+  const [step, setStep] = useState(1);
+  const [nama, setNama] = useState("");
+  const [gender, setGender] = useState("");
+  const [selectedAnswer, setSelectedAnswer] =
     useState("");
-
-  const [gender, setGender] =
-    useState("");
-
-  const [
-    selectedAnswer,
-    setSelectedAnswer
-  ] = useState("");
 
   const [bestMatch, setBestMatch] =
     useState(null);
@@ -24,11 +16,49 @@ function TestPage() {
   const [loading, setLoading] =
     useState(false);
 
+  // ganti nama biar tidak bentrok
+  const [
+    loadingProgress,
+    setLoadingProgress
+  ] = useState(0);
+
+  /* LOADING PROGRESS */
+  useEffect(() => {
+    if (!loading) return;
+
+    setLoadingProgress(0);
+
+    const duration = 5000;
+    const intervalTime = 30;
+
+    const totalSteps =
+      duration / intervalTime;
+
+    const increment =
+      100 / totalSteps;
+
+    const interval = setInterval(() => {
+      setLoadingProgress((prev) => {
+        const next = prev + increment;
+
+        if (next >= 100) {
+          clearInterval(interval);
+          return 100;
+        }
+
+        return Math.round(next);
+      });
+    }, intervalTime);
+
+    return () =>
+      clearInterval(interval);
+  }, [loading]);
+
   const [jawaban, setJawaban] =
     useState({
       jenis_ekskul: "",
 
-      // WAJIB BARU
+      // WAJIB
       kp: "",
       ck: "",
       sf: "",
@@ -45,17 +75,17 @@ function TestPage() {
       tk: ""
     });
 
-  /* RESET RADIO SETIAP PINDAH STEP */
+  /* Reset Radio Setiap Pindah Step */
   useEffect(() => {
     setSelectedAnswer("");
   }, [step]);
 
-  /* SCROLL KE ATAS SETIAP GANTI STEP */
+  /* Scroll Ke Atas -> Ganti Step */
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [step]);
 
-  /* PERTANYAAN EKSKUL WAJIB */
+  /* PERTANYAAN WAJIB */
   const wajibQuestions = [
     {
       field: "kp",
@@ -501,9 +531,7 @@ function TestPage() {
   ];
 
   const getOptionLabel = (value) => {
-
     for (const question of allQuestions) {
-
       const option =
         question.options.find(
           (opt) =>
@@ -634,21 +662,14 @@ const handleNext =
 
       try {
 
-        // reset hasil lama
-        setBestMatch(null);
-
-        // tampilkan loading DULU
-        setLoading(true);
-
-        // pindah ke result page loading
-        setStep(totalQuestion + 3);
-
-        // kasih waktu render UI dulu
+        setBestMatch(null); // reset hasil lama
+        setLoading(true); // tampilkan loading DULU
+        setStep(totalQuestion + 3); // pindah ke result page loading
         await new Promise((resolve) =>
-          setTimeout(resolve, 100)
+          setTimeout(resolve, 100) // kasih waktu render UI dulu
         );
 
-        // fetch API + minimum loading 5 detik
+        // fetch API + minimum loading
         const [response] =
           await Promise.all([
 
@@ -666,9 +687,8 @@ const handleNext =
               }
             ),
 
-            // minimum loading 5 detik
             new Promise((resolve) =>
-              setTimeout(resolve, 3000)
+              setTimeout(resolve, 5000) // 5 detik
             )
           ]);
 
@@ -719,365 +739,249 @@ const handleNext =
     }
   };
 
-/* KATEGORI HASIL */
-let kategoriHasil =
-  "";
+  /* KATEGORI HASIL */
+  let kategoriHasil =
+    "";
 
-if (
-  bestMatch?.skor >=
-  6
-) {
-
-  kategoriHasil =
-    "Sangat Cocok";
-}
-else if (
-  bestMatch?.skor >=
-  4
-) {
-
-  kategoriHasil =
-    "Cocok";
-}
-else if (
-  bestMatch?.skor >=
-  2
-) {
-
-  kategoriHasil =
-    "Cukup Cocok";
-}
-else {
-
-  kategoriHasil =
-    "Rekomendasi Dasar";
-}
-
-/* LABEL KODE PILIHAN */
-const kodeLabel = {
-  // WAJIB (5 Kategori)
-  // KEPRIBADIAN
-  KP01: "Mudah beradaptasi dan suka mencoba hal baru",
-  KP02: "Peka terhadap lingkungan sekitar",
-  KP03: "Nyaman dengan keteraturan dan arahan jelas",
-  KP04: "Cenderung mengamati sebelum terlibat",
-
-  // CARA KERJA
-  CK01: "Nyaman bekerja bersama dan berdiskusi",
-  CK02: "Senang berkontribusi sesuai kemampuan",
-  CK03: "Lebih nyaman jika ada arahan yang jelas",
-  CK04: "Fleksibel menyesuaikan situasi",
-
-  // SITUASI FAVORIT
-  SF01: "Menyukai aktivitas yang aktif dan dinamis",
-  SF02: "Nyaman di lingkungan yang suportif",
-  SF03: "Lebih suka situasi yang teratur",
-  SF04: "Menyukai keseimbangan antara santai dan terarah",
-
-  // MOTIVASI
-  MV01: "Mencari pengalaman dan tantangan baru",
-  MV02: "Ingin memberi dampak positif",
-  MV03: "Ingin mengembangkan kedisiplinan diri",
-  MV04: "Ingin memiliki lingkungan pertemanan yang baik",
-
-  // TANTANGAN
-  CT01: "Cenderung langsung mencari solusi",
-  CT02: "Memahami situasi terlebih dahulu",
-  CT03: "Mengikuti langkah yang sudah terarah",
-  CT04: "Beradaptasi dan mencoba cara lain",
-
-  // PEMINATAN (7 Kategori)
-  BK01: "Akademik",
-  BK02: "Olahraga",
-  BK03: "Seni dan Budaya",
-  BK04: "Organisasi",
-  BK05: "Keagamaan",
-
-  PK01: "Berkelompok",
-  PK03: "Keduanya",
-
-  LKG01: "Indoor",
-  LKG02: "Outdoor",
-  LKG03: "Keduanya",
-
-  BA01: "Praktik/Lapangan",
-  BA02: "Diskusi/Pembelajaran",
-  BA03: "Penampilan/Event",
-  BA04: "Kompetisi/Lomba",
-  BA05: "Kombinasi Aktivitas",
-
-  FA02: "Praktik",
-  FA03: "Keduanya",
-
-  TI01: "Santai",
-  TI02: "Sedang",
-  TI03: "Intensif / Kompetitif",
-
-  TK01: "Prestasi & Kompetisi",
-  TK02: "Pengembangan Skill",
-  TK03: "Kepemimpinan & Organisasi",
-  TK04: "Minat & Hobi"
-};
-
-const handleBack = () => {
-
-  // dari step 2 balik ke step 1
-  if (step === 2) {
-    setStep(1);
-    return;
+  if (bestMatch?.skor >= 6) 
+  {
+    kategoriHasil =
+      "Sangat Cocok";
   }
 
-  // dari pertanyaan pertama balik ke step 2
-  if (step === 3) {
-    setStep(2);
-    setSelectedAnswer("");
-    return;
+  else if (bestMatch?.skor >= 4) 
+  {
+    kategoriHasil =
+      "Cocok";
   }
 
-  // pertanyaan selanjutnya
-  if (step > 3) {
-    setStep((prev) => prev - 1);
-
-    // optional reset jawaban
-    setSelectedAnswer("");
+  else if (bestMatch?.skor >= 2) 
+  {
+    kategoriHasil =
+      "Cukup Cocok";
   }
-};
 
-return (
-  <div className="test-page">
-    <div className="test-wrapper">
-      {/* LEFT SECTION */}
-      {step !== 2 &&
-        step !== totalQuestion + 3 && (
-        <div className="left-section">
+  else 
+  { kategoriHasil =
+      "Rekomendasi Dasar";
+  }
 
-          {step === 1 && (
-            <img
-              src="/image1.png"
-              alt="Form"
-            />
-          )}
+  /* LABEL KODE PILIHAN */
+  const kodeLabel = {
 
-          {step >= 3 &&
-            step <= totalQuestion + 2 && (
+    // WAJIB (5 Kategori)
+    // KEPRIBADIAN
+    KP01: "Mudah beradaptasi dan suka mencoba hal baru",
+    KP02: "Peka terhadap lingkungan sekitar",
+    KP03: "Nyaman dengan keteraturan dan arahan jelas",
+    KP04: "Cenderung mengamati sebelum terlibat",
+
+    // CARA KERJA
+    CK01: "Nyaman bekerja bersama dan berdiskusi",
+    CK02: "Senang berkontribusi sesuai kemampuan",
+    CK03: "Lebih nyaman jika ada arahan yang jelas",
+    CK04: "Fleksibel menyesuaikan situasi",
+
+    // SITUASI FAVORIT
+    SF01: "Menyukai aktivitas yang aktif dan dinamis",
+    SF02: "Nyaman di lingkungan yang suportif",
+    SF03: "Lebih suka situasi yang teratur",
+    SF04: "Menyukai keseimbangan antara santai dan terarah",
+
+    // MOTIVASI
+    MV01: "Mencari pengalaman dan tantangan baru",
+    MV02: "Ingin memberi dampak positif",
+    MV03: "Ingin mengembangkan kedisiplinan diri",
+    MV04: "Ingin memiliki lingkungan pertemanan yang baik",
+
+    // TANTANGAN
+    CT01: "Cenderung langsung mencari solusi",
+    CT02: "Memahami situasi terlebih dahulu",
+    CT03: "Mengikuti langkah yang sudah terarah",
+    CT04: "Beradaptasi dan mencoba cara lain",
+
+    // PEMINATAN (7 Kategori)
+    BK01: "Akademik",
+    BK02: "Olahraga",
+    BK03: "Seni dan Budaya",
+    BK04: "Organisasi",
+    BK05: "Keagamaan",
+
+    PK01: "Berkelompok",
+    PK03: "Keduanya",
+
+    LKG01: "Indoor",
+    LKG02: "Outdoor",
+    LKG03: "Keduanya",
+
+    BA01: "Praktik/Lapangan",
+    BA02: "Diskusi/Pembelajaran",
+    BA03: "Penampilan/Event",
+    BA04: "Kompetisi/Lomba",
+    BA05: "Kombinasi Aktivitas",
+
+    FA02: "Praktik",
+    FA03: "Keduanya",
+
+    TI01: "Santai",
+    TI02: "Sedang",
+    TI03: "Intensif / Kompetitif",
+
+    TK01: "Prestasi & Kompetisi",
+    TK02: "Pengembangan Skill",
+    TK03: "Kepemimpinan & Organisasi",
+    TK04: "Minat & Hobi"
+  };
+
+  const handleBack = () => {
+
+    // dari step 2 balik ke step 1
+    if (step === 2) {
+      setStep(1);
+      return;
+    }
+
+    // dari pertanyaan pertama balik ke step 2
+    if (step === 3) {
+      setStep(2);
+      setSelectedAnswer("");
+      return;
+    }
+
+    // pertanyaan selanjutnya
+    if (step > 3) {
+      setStep((prev) => prev - 1);
+
+      setSelectedAnswer(""); // optional reset jawaban
+    }
+  };
+
+  return (
+    <div className="test-page">
+      <div className="test-wrapper">
+        {/* LEFT SECTION */}
+        {step !== 2 &&
+          step !== totalQuestion + 3 && (
+          <div className="left-section">
+
+            {step === 1 && (
               <img
-                className="left-image-question"
-                src="/image3.png"
-                alt="Question"
+                src="/image1.png"
+                alt="Form"
               />
-          )}
-        </div>
-      )}
+            )}
 
-      {/* RIGHT SECTION */}
-      <div className="right-section">
-        {/* PROGRESS */}
-        {step >= 3 &&
-          step <=
-            totalQuestion + 2 && (
-
-          <div className="progress-container">
-            <div className="progress-info">
-              <span>
-                Progress
-              </span>
-
-              <span>
-                Pertanyaan
-                {" "}
-                {step - 2}
-                /
-                {totalQuestion}
-              </span>
-            </div>
-
-            <div className="progress-bar">
-              <div
-                className="progress-fill"
-                style={{
-                  width:
-                    `${progress}%`
-                }}
-              ></div>
-            </div>
+            {step >= 3 &&
+              step <= totalQuestion + 2 && (
+                <img
+                  className="left-image-question"
+                  src="/image3.png"
+                  alt="Question"
+                />
+            )}
           </div>
         )}
 
-        {/* STEP 1 */}
-        {step === 1 && (
-          <div className="form-container">
-            <h1>Kenalan Dulu, Yuk!</h1>
-
-            <p>Isi data dirimu sebelum memulai test rekomendasi ekskul 🚀</p>
-
-            <form onSubmit={handleSubmit}>
-              <div className="input-group">
-                <label htmlFor="nama">
-                  Nama
-                </label>
-
-                <input
-                  id="nama"
-                  name="nama"
-                  type="text"
-                  placeholder="Masukkan nama kamu"
-                  value={nama}
-                  onChange={(e) =>
-                    setNama(e.target.value)
-                  }
-                />
-              </div>
-
-              <div className="input-group">
-                <label htmlFor="gender">
-                  Gender
-                </label>
-
-                <select
-                  id="gender"
-                  name="gender"
-                  value={gender}
-                  onChange={(e) =>
-                    setGender(e.target.value)
-                  }
-                >
-                  <option value="">
-                    Pilih Gender
-                  </option>
-
-                  <option value="L">
-                    Laki-laki
-                  </option>
-
-                  <option value="P">
-                    Perempuan
-                  </option>
-                </select>
-              </div>
-
-              <button
-                type="submit"
-                className="btn"
-              >
-                Lanjutkan
-              </button>
-            </form>
-          </div>
-        )}
-
-        {/* STEP 2 */}
-        {step === 2 && (
-          <div className="welcome-container">
-
-            <button
-              className="back-btn"
-              onClick={handleBack}
-            >
-              <FiArrowLeft />
-              Kembali
-            </button>
-
-            <h1>
-              Halo,
-              {" "}
-              <span>
-                {nama}
-              </span>
-              👋
-            </h1>
-
-            <p className="welcome-text">
-              Yuk pilih jenis ekskul dulu untuk mulai menemukan ekskul yang paling cocok 🚀
-            </p>
-
-            <h3>Pilih Jenis Ekstrakurikuler</h3>
-
-            <div className="jenis-ekskul-group">
-              <label className="jenis-ekskul-card">
-                <input
-                  type="radio"
-                  value="JE01"
-                  checked={
-                    selectedAnswer === "JE01"
-                  }
-                  onChange={(e) =>
-                    setSelectedAnswer(
-                      e.target.value
-                    )
-                  }
-                />
-                <div className="jenis-ekskul-content">
-
-                  <img
-                    src="/wajib.jpg"
-                    alt="Ekskul Wajib"
-                  />
-
-                  <h4>Ekskul Wajib</h4>
-                </div>
-              </label>
-
-              <label className="jenis-ekskul-card">
-                <input
-                  type="radio"
-                  value="JE02"
-                  checked={
-                    selectedAnswer === "JE02"
-                  }
-                  onChange={(e) =>
-                    setSelectedAnswer(
-                      e.target.value
-                    )
-                  }
-                />
-
-                <div className="jenis-ekskul-content">
-                  <img
-                    src="/peminatan.jpg"
-                    alt="Ekskul Peminatan"
-                  />
-
-                  <h4>Ekskul Peminatan</h4>
-                </div>
-              </label>
-            </div>
-
-            <button
-              className="btn btn-step2"
-              onClick={() => {
-
-                if (
-                  !selectedAnswer
-                ) {
-
-                  Swal.fire({
-                    icon:
-                      "warning",
-                    title:
-                      "Pilih Jenis Ekskul",
-                    text:
-                      "Silakan pilih jenis ekstrakurikuler terlebih dahulu."
-                  });
-
-                  return;
-                }
-
-                handleJenisEkskul(
-                  selectedAnswer
-                );
-              }}
-            >
-              Mulai Test
-            </button>
-          </div>
-        )}
-
-        {/* DYNAMIC QUESTION */}
+        {/* RIGHT SECTION */}
+        <div className="right-section">
+          {/* PROGRESS */}
           {step >= 3 &&
-          step <= totalQuestion + 2 &&
-          currentQuestion && (
+            step <=
+              totalQuestion + 2 && (
 
-            <div className="question-container">
+            <div className="progress-container">
+              <div className="progress-info">
+                <span>
+                  Progress
+                </span>
+
+                <span>
+                  Pertanyaan
+                  {" "}
+                  {step - 2}
+                  /
+                  {totalQuestion}
+                </span>
+              </div>
+
+              <div className="progress-bar">
+                <div
+                  className="progress-fill"
+                  style={{
+                    width:
+                      `${progress}%`
+                  }}
+                ></div>
+              </div>
+            </div>
+          )}
+
+          {/* STEP 1 */}
+          {step === 1 && (
+            <div className="form-container">
+              <h1>Kenalan Dulu, Yuk!</h1>
+
+              <p>Isi data dirimu sebelum memulai test rekomendasi ekskul 🚀</p>
+
+              <form onSubmit={handleSubmit}>
+                <div className="input-group">
+                  <label htmlFor="nama">
+                    Nama
+                  </label>
+
+                  <input
+                    id="nama"
+                    name="nama"
+                    type="text"
+                    placeholder="Masukkan nama kamu"
+                    value={nama}
+                    onChange={(e) =>
+                      setNama(e.target.value)
+                    }
+                  />
+                </div>
+
+                <div className="input-group">
+                  <label htmlFor="gender">
+                    Gender
+                  </label>
+
+                  <select
+                    id="gender"
+                    name="gender"
+                    value={gender}
+                    onChange={(e) =>
+                      setGender(e.target.value)
+                    }
+                  >
+                    <option value="">
+                      Pilih Gender
+                    </option>
+
+                    <option value="L">
+                      Laki-laki
+                    </option>
+
+                    <option value="P">
+                      Perempuan
+                    </option>
+                  </select>
+                </div>
+
+                <button
+                  type="submit"
+                  className="btn"
+                >
+                  Lanjutkan
+                </button>
+              </form>
+            </div>
+          )}
+
+          {/* STEP 2 */}
+          {step === 2 && (
+            <div className="welcome-container">
+
               <button
                 className="back-btn"
                 onClick={handleBack}
@@ -1087,258 +991,381 @@ return (
               </button>
 
               <h1>
-                {
-                  currentQuestion.question
-                }
+                Halo,
+                {" "}
+                <span>
+                  {nama}
+                </span>
+                👋
               </h1>
 
-              <p>Pilih salah satu, yang paling menggambarkan diri kamu</p>
+              <p className="welcome-text">
+                Yuk pilih jenis ekskul dulu untuk mulai menemukan ekskul yang paling cocok 🚀
+              </p>
 
-              <div className="radio-group">
-                {currentQuestion.options.map(
-                  (option) => (
+              <h3>Pilih Jenis Ekstrakurikuler</h3>
 
-                    <label
-                        key={option.id}
-                        className="radio-card"
-                      >
+              <div className="jenis-ekskul-group">
+                <label className="jenis-ekskul-card">
+                  <input
+                    type="radio"
+                    value="JE01"
+                    checked={
+                      selectedAnswer === "JE01"
+                    }
+                    onChange={(e) =>
+                      setSelectedAnswer(
+                        e.target.value
+                      )
+                    }
+                  />
+                  <div className="jenis-ekskul-content">
 
-                      <input
-                        type="radio"
-                        value={option.id}
-                        checked={
-                          selectedAnswer === option.id
-                        }
-                        onChange={() =>
-                          setSelectedAnswer(option.id)
-                        }
-                      />
+                    <img
+                      src="/wajib.jpg"
+                      alt="Ekskul Wajib"
+                    />
 
-                    <span className="option-text">
+                    <h4>Ekskul Wajib</h4>
+                  </div>
+                </label>
 
-                      {option.title && (
-                        <strong className="option-title">
-                          ({option.title})
-                        </strong>
-                      )}
+                <label className="jenis-ekskul-card">
+                  <input
+                    type="radio"
+                    value="JE02"
+                    checked={
+                      selectedAnswer === "JE02"
+                    }
+                    onChange={(e) =>
+                      setSelectedAnswer(
+                        e.target.value
+                      )
+                    }
+                  />
 
-                      {" "}
-                      {option.label}
+                  <div className="jenis-ekskul-content">
+                    <img
+                      src="/peminatan.jpg"
+                      alt="Ekskul Peminatan"
+                    />
 
-                    </span>
-
-                    </label>
-                  )
-                )}
+                    <h4>Ekskul Peminatan</h4>
+                  </div>
+                </label>
               </div>
 
               <button
-                className="btn"
-                onClick={
-                  handleNext
-                }
+                className="btn btn-step2"
+                onClick={() => {
+
+                  if (
+                    !selectedAnswer
+                  ) {
+
+                    Swal.fire({
+                      icon:
+                        "warning",
+                      title:
+                        "Pilih Jenis Ekskul",
+                      text:
+                        "Silakan pilih jenis ekstrakurikuler terlebih dahulu."
+                    });
+                    return;
+                  }
+
+                  handleJenisEkskul(
+                    selectedAnswer
+                  );
+                }}
               >
-
-                {step ===
-                totalQuestion + 2
-                  ? "Lihat Hasil"
-                  : "Selanjutnya"}
-
+                Mulai Test
               </button>
-
             </div>
           )}
 
-          {/* RESULT PAGE */}
-          {step === totalQuestion + 3 && (
-            <div className="question-container">
+          {/* DYNAMIC QUESTION */}
+            {step >= 3 &&
+            step <= totalQuestion + 2 &&
+            currentQuestion && (
 
-              {console.log(bestMatch)}
+              <div className="question-container">
+                <button
+                  className="back-btn"
+                  onClick={handleBack}
+                >
+                  <FiArrowLeft />
+                  Kembali
+                </button>
 
-              {loading ? (
-                <div className="loading-box">
-                  <div className="loading-content">
+                <h1>
+                  {
+                    currentQuestion.question
+                  }
+                </h1>
 
-                    <div className="loading-spinner"></div>
+                <p>Pilih salah satu, yang paling menggambarkan diri kamu</p>
 
-                    <h2>
-                      Mencari ekskul terbaik untuk kamu 🚀
-                    </h2>
+                <div className="radio-group">
+                  {currentQuestion.options.map(
+                    (option) => (
 
-                    <p>
-                      Sabar ya,  sedang mencocokkan jawabanmu
-                      dengan ekskul yang paling sesuai
-                    </p>
+                      <label
+                          key={option.id}
+                          className="radio-card"
+                        >
 
-                  </div>
+                        <input
+                          type="radio"
+                          value={option.id}
+                          checked={
+                            selectedAnswer === option.id
+                          }
+                          onChange={() =>
+                            setSelectedAnswer(option.id)
+                          }
+                        />
+
+                      <span className="option-text">
+
+                        {option.title && (
+                          <strong className="option-title">
+                            ({option.title})
+                          </strong>
+                        )}
+
+                        {" "}
+                        {option.label}
+
+                      </span>
+
+                      </label>
+                    )
+                  )}
                 </div>
-              ) : bestMatch ? (
-                <div className="hasil-layout">
 
-                  {/* KIRI */}
-                  <div className="hasil-left">
+                <button
+                  className="btn"
+                  onClick={
+                    handleNext
+                  }
+                >
 
-                    <h3>
-                      Ekskul yang Cocok Untuk Kamu 🚀
-                    </h3>
+                  {step ===
+                  totalQuestion + 2
+                    ? "Lihat Hasil"
+                    : "Selanjutnya"}
+                </button>
+              </div>
+            )}
 
-                    <p>
-                      {nama}, berdasarkan jawaban
-                      yang telah kamu isi,
-                      ekskul yang paling cocok adalah:
-                    </p>
+            {/* RESULT PAGE */}
+            {step === totalQuestion + 3 && (
+              <div className="question-container">
 
-                    <div className="hasil-card">
+                {console.log(bestMatch)}
 
-                      <h1>
-                        {bestMatch.nama_kegiatan}
-                      </h1>
+                {loading ? (
+                  <div className="loading-box">
+                    <div className="loading-content">
 
-                      <div className="hasil-detail">
+                      <div className="progress-wrapper">
+                        <div
+                          className="progress-ring"
+                          style={{
+                            background: `conic-gradient(
+                              #7b61ff ${
+                                loadingProgress * 3.6
+                              }deg,
+                              #ece9ff ${
+                                loadingProgress * 3.6
+                              }deg
+                            )`
+                          }}
+                        >
+                          <div className="progress-inner">
+                            <span>
+                              {loadingProgress}%
+                            </span>
+                          </div>
+                        </div>
+                      </div>
 
-                        <p>
-                          <strong>
-                            Kecocokan:
-                          </strong>{" "}
-                          {bestMatch.skor}
-                          /
-                          {bestMatch.max_skor}
-                        </p>
+                      <h2>
+                        Mencari ekskul terbaik untuk kamu 🚀
+                      </h2>
 
-                        <p>
-                          <strong>
-                            Kategori:
-                          </strong>{" "}
-                          {kategoriHasil}
-                        </p>
+                      <p>
+                        Sabar ya, sedang mencocokkan
+                        jawabanmu dengan ekskul
+                        yang paling sesuai
+                      </p>
 
-                        <p>
-                          <strong>
-                            Tahap Eliminasi:
-                          </strong>{" "}
-                          {bestMatch.tahap}
-                        </p>
+                    </div>
+                  </div>
+                ) : bestMatch ? (
+                  <div className="hasil-layout">
+
+                    {/* KIRI */}
+                    <div className="hasil-left">
+
+                      <h3>Ekskul yang Cocok Untuk Kamu 🚀</h3>
+
+                      <p>
+                        {nama}, berdasarkan jawaban
+                        yang telah kamu isi,
+                        ekskul yang paling cocok adalah:
+                      </p>
+
+                      <div className="hasil-card">
+
+                        <h1>
+                          {bestMatch.nama_kegiatan}
+                        </h1>
+
+                        <div className="hasil-detail">
+
+                          <p>
+                            <strong>
+                              Kecocokan:
+                            </strong>{" "}
+                            {bestMatch.skor}
+                            /
+                            {bestMatch.max_skor}
+                          </p>
+
+                          <p>
+                            <strong>
+                              Kategori:
+                            </strong>{" "}
+                            {kategoriHasil}
+                          </p>
+
+                          <p>
+                            <strong>
+                              Tahap Eliminasi:
+                            </strong>{" "}
+                            {bestMatch.tahap}
+                          </p>
+
+                        </div>
 
                       </div>
 
                     </div>
 
-                  </div>
+                    {/* KANAN */}
+                    <div className="hasil-right">
+                      <h3>Kenapa Ekskul Ini Cocok Untuk Kamu?</h3>
 
-                  {/* KANAN */}
-                  <div className="hasil-right">
-                    <h3>Kenapa Ekskul Ini Cocok Untuk Kamu?</h3>
+                      <p className="hasil-desc">Berikut kecocokan jawaban kamu dengan ekskul yang direkomendasikan:</p>
 
-                    <p className="hasil-desc">Berikut kecocokan jawaban kamu dengan ekskul yang direkomendasikan:</p>
+                      <div className="jawaban-list">
 
-                    <div className="jawaban-list">
+                        {Object.entries(jawaban)
 
-                      {Object.entries(jawaban)
-
-                        .filter(
-                          ([key, value]) =>
-                            key !==
-                              "jenis_ekskul" &&
-                            value
-                        )
-
-                        .map(([key, value]) => {
-
-                          const isMatch =
-                            bestMatch?.matched_rules?.includes(
+                          .filter(
+                            ([key, value]) =>
+                              key !==
+                                "jenis_ekskul" &&
                               value
-                            );
+                          )
 
-                          const optionData =
-                            getOptionLabel(value);
+                          .map(([key, value]) => {
 
-                          return (
-                            <div
-                              key={key}
-                              className={`jawaban-item ${
-                                isMatch
-                                  ? "match"
-                                  : "not-match"
-                              }`}
-                            >
+                            const isMatch =
+                              bestMatch?.matched_rules?.includes(
+                                value
+                              );
 
-                              <span className="icon-status">
-                                {isMatch
-                                  ? "✅"
-                                  : "❌"}
-                              </span>
+                            const optionData =
+                              getOptionLabel(value);
 
-                              <div>
+                            return (
+                              <div
+                                key={key}
+                                className={`jawaban-item ${
+                                  isMatch
+                                    ? "match"
+                                    : "not-match"
+                                }`}
+                              >
 
-                                {optionData?.title && (
-                                  <strong>
-                                    {optionData.title}
-                                  </strong>
-                                )}
-
-                                <p>
-                                  {optionData?.label}
-                                </p>
-
-                                <small>
+                                <span className="icon-status">
                                   {isMatch
-                                    ? "Cocok dengan karakter ekskul ini"
-                                    : "Kurang sesuai dengan karakter ekskul ini"}
-                                </small>
+                                    ? "✅"
+                                    : "❌"}
+                                </span>
+
+                                <div>
+
+                                  {optionData?.title && (
+                                    <strong>
+                                      {optionData.title}
+                                    </strong>
+                                  )}
+
+                                  <p>
+                                    {optionData?.label}
+                                  </p>
+
+                                  <small>
+                                    {isMatch
+                                      ? "Cocok dengan karakter ekskul ini"
+                                      : "Kurang sesuai dengan karakter ekskul ini"}
+                                  </small>
+
+                                </div>
 
                               </div>
-
-                            </div>
-                          );
-                        })}
+                            );
+                          })}
+                      </div>
                     </div>
                   </div>
-                </div>
-              ) : (
-                <div className="hasil-box">
+                ) : (
+                  <div className="hasil-box">
+                    <h2>Tidak ditemukan rekomendasi 😢</h2>
+                    <p>Coba ulangi test dan pilih jawaban lain.</p>
+                  </div>
 
-                  <h2>Tidak ditemukan rekomendasi 😢</h2>
+                )}
 
-                  <p>Coba ulangi test dan pilih jawaban lain.</p>
-                </div>
+                {!loading && (
+                  <button
+                    className="btn btn-repeat"
+                    onClick={() => {
+                      setStep(1);
+                      setNama("");
+                      setGender("");
+                      setSelectedAnswer("");
+                      setBestMatch(null);
 
-              )}
-
-              {!loading && (
-                <button
-                  className="btn btn-repeat"
-                  onClick={() => {
-                    setStep(1);
-                    setNama("");
-                    setGender("");
-                    setSelectedAnswer("");
-                    setBestMatch(null);
-
-                    setJawaban({
-                      jenis_ekskul: "",
-                      kp: "",
-                      ck: "",
-                      sf: "",
-                      mv: "",
-                      ct: "",
-                      bk: "",
-                      pk: "",
-                      lkg: "",
-                      ba: "",
-                      fa: "",
-                      ti: "",
-                      tk: ""
-                    });
-                  }}
-                >
-                  Ulangi Test
-                </button>
-              )}
+                      setJawaban({
+                        jenis_ekskul: "",
+                        kp: "",
+                        ck: "",
+                        sf: "",
+                        mv: "",
+                        ct: "",
+                        bk: "",
+                        pk: "",
+                        lkg: "",
+                        ba: "",
+                        fa: "",
+                        ti: "",
+                        tk: ""
+                      });
+                    }}
+                  >
+                    Ulangi Test
+                  </button>
+                )}
+              </div>
+            )}
             </div>
-          )}
           </div>
         </div>
-      </div>
-    );
+      );
   }
 export default TestPage;
