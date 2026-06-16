@@ -1164,7 +1164,6 @@ const handleNext =
               <div className="question-container">
 
                 {console.log(bestMatch)}
-
                 {loading ? (
                   <div className="loading-box">
                     <div className="loading-content">
