@@ -19,7 +19,6 @@
   justify-content: space-between;
   align-items: center;
   gap: 50px;
-
   width: 100% !important;
   max-width: 1300px !important;
   margin: 0 auto !important;
@@ -33,9 +32,7 @@
 
 .hero-badge {
   display: inline-block;
-
   padding: 10px 18px;
-
   background: rgba(255, 255, 255, 0.15);
   color: #ffffff;
   border-radius: 999px;
@@ -51,24 +48,18 @@
   font-size: 44px;
   font-weight: 800;
   line-height: 1.2;
-
   color: #ffffff;
-
   max-width: 700px;
-
   margin-bottom: 20px;
-
   letter-spacing: -0.3px;
 }
 
 .hero-main-text {
   display: block;
-  font-size: 54px; 
+  font-size: 50px; 
   font-weight: 800;
   line-height: 1.1;
-
   color: #ffffff;
-
   margin-bottom: 8px;
 }
 
@@ -194,6 +185,73 @@
   box-shadow: 0 8px 25px rgba(94, 255, 0, 0.5);
 }
 
+/* ===================== */
+/* STATS HERO */
+/* ===================== */
+
+.hero-stats {
+  display: flex;
+  gap: 15px;
+  flex-wrap: wrap;
+
+  margin-top: 25px;
+  margin-bottom: 10px;
+}
+
+/* CARD */
+.hero-stats .stat-card {
+  min-width: 120px;
+  padding: 16px;
+
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(10px);
+
+  border-radius: 18px;
+
+  box-shadow: 0 10px 30px rgba(0,0,0,0.12);
+
+  text-align: center;
+
+  animation: floatCard 4s ease-in-out infinite;
+}
+
+/* delay animasi */
+.hero-stats .stat-card:nth-child(2) {
+  animation-delay: 0.8s;
+}
+
+.hero-stats .stat-card:nth-child(3) {
+  animation-delay: 1.6s;
+}
+
+/* NUMBER */
+.hero-stats .stat-card h3 {
+  font-size: 26px;
+  color: #1158b4;
+  margin-bottom: 5px;
+}
+
+/* TEXT */
+.hero-stats .stat-card span {
+  color: #555;
+  font-size: 13px;
+}
+
+/* ANIMATION */
+@keyframes floatCard {
+  0% {
+    transform: translateY(0px);
+  }
+
+  50% {
+    transform: translateY(-10px);
+  }
+
+  100% {
+    transform: translateY(0px);
+  }
+}
+
 /* SLIDER */
 .hero-slider {
   flex: 1;
@@ -308,8 +366,35 @@
 /* RESPONSIVE MOBILE */
 @media (max-width: 768px) {
 
+  .hero-main-text {
+    font-size: 25px; 
+  }
+
   .highlight {
     font-size: 30px;
+  }
+
+   .hero-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* 3 kotak sejajar */
+    gap: 10px;
+    margin-top: 20px;
+  }
+
+  .hero-stats .stat-card {
+    padding: 10px 6px;
+    border-radius: 14px;
+    text-align: center;
+  }
+
+  .hero-stats .stat-card h3 {
+    font-size: 18px;
+    margin-bottom: 3px;
+  }
+
+  .hero-stats .stat-card span {
+    font-size: 10px;
+    line-height: 1.2;
   }
 
   .hero-badge {
@@ -396,6 +481,16 @@
 }
 
 @media (max-width: 480px) {
+
+   .hero-stats {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .hero-stats .stat-card {
+    width: 100%;
+    max-width: 260px;
+  }
 
   .hero-overlay {
     padding: 100px 16px 50px;

@@ -46,8 +46,9 @@ function Hero() {
           {/* KIRI */}
           <div className="hero-content">
             <div className="hero-badge">✨ Ekstrakurikuler MAN 4 Tangerang</div>
+            
             <h1>
-              Setiap Siswa Punya Potensi,{" "}
+              <span className="hero-main-text">Setiap Siswa Punya Potensi,</span>{" "}
               <span className="highlight">Saatnya Kamu Bersinar</span>
             </h1>
 
@@ -56,6 +57,23 @@ function Hero() {
               menemukan passion, mengembangkan bakat, dan membangun kepercayaan diri.
               Bersama, kita tumbuh menjadi pribadi yang lebih baik setiap harinya.
             </p>
+
+            <div className="hero-stats">
+              <div className="stat-card">
+                <h3>3</h3>
+                <span>Ekskul Wajib</span>
+              </div>
+
+              <div className="stat-card">
+                <h3>14+</h3>
+                <span>Ekstrakurikuler</span>
+              </div>
+
+              <div className="stat-card">
+                <h3>100%</h3>
+                <span>Berbasis Preferensi</span>
+              </div>
+            </div>
 
             <button
               className="hero-btn"
