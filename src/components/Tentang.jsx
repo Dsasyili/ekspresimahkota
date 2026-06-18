@@ -10,9 +10,10 @@ function Tentang() {
         </h2>
 
         <p className="tentang-subtitle">
-          Platform ini dirancang untuk membantu siswa MAN 4 Tangerang 
-          menemukan dan mengembangkan potensi terbaiknya melalui 
-          berbagai kegiatan ekstrakurikuler.
+          Platform ini dirancang untuk membantu siswa MAN 4 Tangerang menemukan 
+          kegiatan ekstrakurikuler yang sesuai dengan minat, karakter, dan potensi diri. 
+          Melalui sistem rekomendasi, siswa dapat memperoleh saran ekskul yang mendukung pengembangan bakat, 
+          keterampilan, serta pengalaman di lingkungan sekolah.
         </p>
 
         <div className="tentang-features">

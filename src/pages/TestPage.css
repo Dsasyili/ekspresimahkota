@@ -637,6 +637,11 @@
     rgba(0,0,0,0.08);
 }
 
+.nama-user {
+  color: #222121;
+  font-weight: bold;
+}
+
 .hasil-card h1 {
   color: #1158b4;
   font-size: 35px;

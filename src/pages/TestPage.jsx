@@ -1211,7 +1211,9 @@ const handleNext =
                       <h3>Ekskul yang Cocok Untuk Kamu 🚀</h3>
 
                       <p>
-                        {nama}, berdasarkan jawaban
+                        <span className="nama-user">
+                          {nama}
+                        </span>, berdasarkan jawaban
                         yang telah kamu isi,
                         ekskul yang paling cocok adalah:
                       </p>
@@ -1240,13 +1242,6 @@ const handleNext =
                             {kategoriHasil}
                           </p>
 
-                          <p>
-                            <strong>
-                              Tahap Eliminasi:
-                            </strong>{" "}
-                            {bestMatch.tahap}
-                          </p>
-
                         </div>
 
                       </div>
@@ -1257,7 +1252,7 @@ const handleNext =
                     <div className="hasil-right">
                       <h3>Kenapa Ekskul Ini Cocok Untuk Kamu?</h3>
 
-                      <p className="hasil-desc">Berikut kecocokan jawaban kamu dengan ekskul yang direkomendasikan:</p>
+                      <p className="hasil-desc">Kecocokan rekomendasi ekskul ini disesuaikan dengan keadaan dan ketentuan preferensi ekstrakurikuler di MAN 4 Tangerang.</p>
 
                       <div className="jawaban-list">
 
