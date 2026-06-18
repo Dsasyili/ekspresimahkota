@@ -1,4 +1,4 @@
-import "./Tentangpage.css";
+import "./TentangPage.css";
 import { useNavigate } from "react-router-dom";
 
 function TentangPage() {
@@ -10,67 +10,99 @@ function TentangPage() {
 
         <div className="tentangpage-wrapper">
 
-          {/* KIRI - GAMBAR */}
-          <div className="tentangpage-image">
-            <img src="/tentang-img1.jpg" alt="Tentang Kami" />
-          </div>
-
-          {/* KANAN - TEXT */}
+          {/* KIRI */}
           <div className="tentangpage-text">
 
-            <h2 className="tentangpage-title">
-              Tentang Platform Ini
-            </h2>
+            <div className="tentang-badge">
+              ✨ Platform Rekomendasi Ekstrakurikuler
+            </div>
+
+            <h1 className="tentangpage-title">
+              Temukan Ekstrakurikuler yang Sesuai Dengan Minat dan Potensi Dirimu
+            </h1>
 
             <p className="tentangpage-subtitle">
-              Platform ini dirancang untuk membantu siswa MAN 4 Tangerang menemukan 
-              kegiatan ekstrakurikuler yang sesuai dengan minat, karakter, dan potensi diri. 
-              Melalui sistem rekomendasi, siswa dapat memperoleh saran ekskul yang mendukung pengembangan bakat, 
-              keterampilan, serta pengalaman di lingkungan sekolah.
-
-              {/* <br />
-              <br />
-
-              Seluruh hasil rekomendasi beserta tingkat kecocokan ekskul disesuaikan 
-              dengan keadaan dan ketentuan preferensi ekstrakurikuler yang berlaku di MAN 4 Tangerang. */}
+              Platform ini dirancang untuk membantu siswa MAN 4 Tangerang menemukan
+              kegiatan ekstrakurikuler yang sesuai dengan minat, karakter, dan
+              potensi diri. Sistem akan memberikan rekomendasi berdasarkan
+              preferensi yang kamu pilih sehingga hasil yang diperoleh lebih relevan.
             </p>
 
-            {/* BUTTON */}
+            <div className="tentang-stats">
+              <div className="stat-card">
+                <h3>3</h3>
+                <span>Ekskul Wajib</span>
+              </div>
+
+              <div className="stat-card">
+                <h3>14+</h3>
+                <span>Ekstrakurikuler</span>
+              </div>
+
+              <div className="stat-card">
+                <h3>100%</h3>
+                <span>Berbasis Preferensi</span>
+              </div>
+              
+            </div>
+
             <button
               className="test-btn"
               onClick={() => navigate("/test")}
             >
-              Mulai Test
+              🚀 Mulai Test Sekarang
             </button>
 
-            <div className="tentangpage-features">
-
-              <div className="featurepage-card">
-                <div className="iconpage">🎯</div>
-                <h3>Temukan Minat</h3>
-                <p>
-                  Jelajahi berbagai pilihan ekstrakurikuler sesuai bakat dan passion kamu.
-                </p>
-              </div>
-
-              <div className="featurepage-card">
-                <div className="iconpage">🚀</div>
-                <h3>Kembangkan Potensi</h3>
-                <p>
-                  Bangun kepercayaan diri dan keterampilan melalui kegiatan yang aktif dan inspiratif.
-                </p>
-              </div>
-
-              <div className="featurepage-card">
-                <div className="iconpage">🤝</div>
-                <h3>Berkolaborasi</h3>
-                <p>
-                  Terhubung dengan teman-teman yang memiliki minat yang sama.
-                </p>
-              </div>
-            </div>
           </div>
+
+          {/* KANAN */}
+          <div className="tentangpage-image">
+            <img
+              src="/tentang-img1.jpg"
+              alt="Tentang Platform"
+            />
+          </div>
+
         </div>
+
+        {/* FITUR */}
+        <div className="tentangpage-features">
+
+          <div className="featurepage-card">
+            <div className="iconpage">🎯</div>
+
+            <h3>Temukan Minat</h3>
+
+            <p>
+              Kenali minat dan bakatmu melalui rekomendasi yang disesuaikan
+              dengan karakter dan preferensi pribadi.
+            </p>
+          </div>
+
+          <div className="featurepage-card">
+            <div className="iconpage">🚀</div>
+
+            <h3>Kembangkan Potensi</h3>
+
+            <p>
+              Dapatkan pengalaman baru yang membantu meningkatkan kemampuan,
+              keterampilan, dan kepercayaan diri.
+            </p>
+          </div>
+
+          <div className="featurepage-card">
+            <div className="iconpage">🤝</div>
+
+            <h3>Berkolaborasi</h3>
+
+            <p>
+              Bergabung dengan komunitas yang memiliki minat serupa dan bangun
+              relasi yang positif di lingkungan sekolah.
+            </p>
+          </div>
+
+        </div>
+
       </div>
     </section>
   );

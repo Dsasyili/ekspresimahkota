@@ -45,6 +45,7 @@ function Hero() {
 
           {/* KIRI */}
           <div className="hero-content">
+            <div className="hero-badge">✨ Ekstrakurikuler MAN 4 Tangerang</div>
             <h1>
               Setiap Siswa Punya Potensi,{" "}
               <span className="highlight">Saatnya Kamu Bersinar</span>
