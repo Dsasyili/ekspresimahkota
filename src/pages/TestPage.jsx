@@ -58,14 +58,13 @@ function TestPage() {
     useState({
       jenis_ekskul: "",
 
-      // WAJIB
       kp: "",
       ck: "",
       sf: "",
       mv: "",
+      mw: "",
       ct: "",
 
-      // PEMINATAN
       bk: "",
       pk: "",
       lkg: "",
@@ -227,6 +226,33 @@ function TestPage() {
           value: "MV04",
           label:
             "Ingin memiliki lingkungan pertemanan yang baik"
+        }
+      ]
+    },
+
+    {
+      field: "mw",
+      question:
+        "Dari kegiatan berikut, mana yang paling kamu sukai?",
+
+      description:
+        "Pilih yang paling sesuai dengan minatmu.",
+
+      options: [
+        {
+          id: "mw1",
+          value: "MW01",
+          label: "Suka tali-temali dan kegiatan diruang terbuka"
+        },
+        {
+          id: "mw2",
+          value: "MW02",
+          label: "Suka menolong orang dan kegiatan kesehatan"
+        },
+        {
+          id: "mw3",
+          value: "MW03",
+          label: "Suka baris-berbaris dan kedisiplinan"
         }
       ]
     },
@@ -800,6 +826,10 @@ const handleNext =
     CT03: "Mengikuti langkah yang sudah terarah",
     CT04: "Beradaptasi dan mencoba cara lain",
 
+    MW01: "Suka tali-temali dan kegiatan kepramukaan",
+    MW02: "Suka menolong orang dan kegiatan kesehatan",
+    MW03: "Suka baris-berbaris dan kedisiplinan",
+
     // PEMINATAN (7 Kategori)
     BK01: "Akademik",
     BK02: "Olahraga",
@@ -1337,11 +1367,14 @@ const handleNext =
 
                       setJawaban({
                         jenis_ekskul: "",
+
                         kp: "",
                         ck: "",
                         sf: "",
                         mv: "",
+                        mw: "",
                         ct: "",
+
                         bk: "",
                         pk: "",
                         lkg: "",

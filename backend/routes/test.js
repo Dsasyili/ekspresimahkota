@@ -29,15 +29,19 @@ router.post(
         "JE01"
       ) {
 
-        jawabanUser = [
-          req.body.kp,
-          req.body.ck,
-          req.body.sf,
-          req.body.mv,
-          req.body.ct
-        ];
+        if (jenis_ekskul === "JE01") {
 
-        skorMaksimal = 5;
+          jawabanUser = [
+            req.body.kp,
+            req.body.ck,
+            req.body.sf,
+            req.body.mv,
+            req.body.ct,
+            req.body.mw
+          ];
+
+          skorMaksimal = 6;
+        }
       }
 
       // EKSKUL PEMINATAN
