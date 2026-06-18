@@ -1,4 +1,4 @@
-import "./TentangPage.css";
+import "./Tentangpage.css";
 import { useNavigate } from "react-router-dom";
 
 function TentangPage() {
@@ -43,7 +43,7 @@ function TentangPage() {
                 <h3>100%</h3>
                 <span>Berbasis Preferensi</span>
               </div>
-              
+
             </div>
 
             <button
