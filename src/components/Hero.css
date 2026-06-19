@@ -29,7 +29,6 @@
   z-index: 2;
 }
 
-
 .hero-badge {
   display: inline-block;
   padding: 10px 18px;
@@ -67,9 +66,7 @@
   font-size: 44px; 
   font-weight: 800;
   line-height: 1.2;
-
   color: #ffffff;
-
   max-width: 700px;
   margin-bottom: 20px;
   letter-spacing: -0.3px;
@@ -84,9 +81,7 @@
 .hero-content p {
   font-size: 18px;
   line-height: 1.8;
-
   color: rgba(255, 255, 255, 0.85);
-
   max-width: 650px;
 }
 
@@ -139,13 +134,9 @@
   font-size: 44px;
   font-weight: 800;
   line-height: 1.2;
-
   color: #ffffff;
-
   max-width: 700px;
-
   margin-bottom: 20px;
-
   letter-spacing: -0.3px;
 }
 
@@ -158,9 +149,7 @@
 .hero-content p {
   font-size: 18px;
   line-height: 1.8;
-
   color: rgba(255, 255, 255, 0.85);
-
   max-width: 650px;
 }
 
@@ -185,15 +174,11 @@
   box-shadow: 0 8px 25px rgba(94, 255, 0, 0.5);
 }
 
-/* ===================== */
 /* STATS HERO */
-/* ===================== */
-
 .hero-stats {
   display: flex;
   gap: 15px;
   flex-wrap: wrap;
-
   margin-top: 25px;
   margin-bottom: 10px;
 }
@@ -201,21 +186,15 @@
 /* CARD */
 .hero-stats .stat-card {
   min-width: 120px;
-  padding: 16px;
-
+  padding: 15px;
   background: rgba(255, 255, 255, 0.92);
   backdrop-filter: blur(10px);
-
   border-radius: 18px;
-
   box-shadow: 0 10px 30px rgba(0,0,0,0.12);
-
   text-align: center;
-
   animation: floatCard 4s ease-in-out infinite;
 }
 
-/* delay animasi */
 .hero-stats .stat-card:nth-child(2) {
   animation-delay: 0.8s;
 }
@@ -224,20 +203,17 @@
   animation-delay: 1.6s;
 }
 
-/* NUMBER */
 .hero-stats .stat-card h3 {
   font-size: 26px;
   color: #1158b4;
   margin-bottom: 5px;
 }
 
-/* TEXT */
 .hero-stats .stat-card span {
   color: #555;
   font-size: 13px;
 }
 
-/* ANIMATION */
 @keyframes floatCard {
   0% {
     transform: translateY(0px);
@@ -319,7 +295,6 @@
   bottom: -35px;
   left: 50%;
   transform: translateX(-50%);
-
   display: flex;
   gap: 10px;
 }
@@ -376,7 +351,7 @@
 
    .hero-stats {
     display: grid;
-    grid-template-columns: repeat(3, 1fr); /* 3 kotak sejajar */
+    grid-template-columns: repeat(3, 1fr);
     gap: 10px;
     margin-top: 20px;
   }
@@ -482,15 +457,28 @@
 
 @media (max-width: 480px) {
 
-   .hero-stats {
-    flex-direction: column;
-    align-items: center;
+  .hero-stats {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
   }
 
   .hero-stats .stat-card {
-    width: 100%;
-    max-width: 260px;
+    width: 95px;
+    padding: 8px 4px;
+    border-radius: 12px;
   }
+
+  .hero-stats .stat-card h3 {
+    font-size: 16px;
+    margin-bottom: 2px;
+  }
+
+  .hero-stats .stat-card span {
+    font-size: 9px;
+    line-height: 1.2;
+  }
+
 
   .hero-overlay {
     padding: 100px 16px 50px;
