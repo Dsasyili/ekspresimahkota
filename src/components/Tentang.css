@@ -51,6 +51,10 @@
   gap: 16px;
 }
 
+.accordion-wrapper > div {
+  will-change: transform, opacity;
+}
+
 .MuiAccordion-root {
   border-radius: 16px !important;
   overflow: hidden;
@@ -112,15 +116,11 @@
   color: inherit !important;
 }
 
-/* TITLE */
-
 .accordion-title {
   display: flex;
   align-items: center;
   font-size: 17px;
 }
-
-/* EMOJI */
 
 .emoji {
   display: inline-block;
@@ -142,13 +142,9 @@
   }
 }
 
-/* DETAIL */
-
 .MuiAccordionDetails-root {
   line-height: 1.8;
 }
-
-/* MOBILE */
 
 @media (max-width: 768px) {
   .tentang {
@@ -162,4 +158,49 @@
   .tentang-subtitle {
     font-size: 16px;
   }
+}
+
+/* =========================
+   REVEAL ON SCROLL
+========================= */
+.reveal {
+  opacity: 0;
+  transition:
+    opacity 0.8s ease,
+    transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: transform, opacity;
+}
+
+.reveal-up {
+  transform: translateY(45px);
+}
+
+.reveal-left {
+  transform: translateX(-50px);
+}
+
+.reveal-right {
+  transform: translateX(50px);
+}
+
+.reveal.show {
+  opacity: 1;
+  transform: translate(0, 0);
+}
+
+/* Delay bertahap */
+.delay-1 {
+  transition-delay: 0.12s;
+}
+
+.delay-2 {
+  transition-delay: 0.24s;
+}
+
+.delay-3 {
+  transition-delay: 0.36s;
+}
+
+.delay-4 {
+  transition-delay: 0.48s;
 }

@@ -1,9 +1,11 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import "./KeterampilanPage.css";
 import { FiX } from "react-icons/fi";
 
 function KeterampilanPage() {
   const [selectedSkill, setSelectedSkill] = useState(null);
+  const revealRefs = useRef([]);
+
   const keterampilanList = [
     {
       nama: "Multimedia",
@@ -37,22 +39,57 @@ function KeterampilanPage() {
     },
   ];
 
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("show");
+          }
+        });
+      },
+      {
+        threshold: 0.15,
+      }
+    );
+
+    revealRefs.current.forEach((el) => {
+      if (el) observer.observe(el);
+    });
+
+    return () => observer.disconnect();
+  }, []);
+
+  const addToRefs = (el) => {
+    if (el && !revealRefs.current.includes(el)) {
+      revealRefs.current.push(el);
+    }
+  };
+
   return (
-    <section className="ekskul-page">
-      <div className="ekskul-wrapper">
-        <h1 className="ekskul-title-page">
+    <section className="keterampilan-page">
+      <div className="keterampilan-wrapper">
+        <h1
+          ref={addToRefs}
+          className="keterampilan-title-page reveal reveal-up"
+        >
           Program Keterampilan
         </h1>
 
-        <p className="ekskul-subtitle">
+        <p
+          ref={addToRefs}
+          className="keterampilan-subtitle reveal reveal-up delay-1"
+        >
           Pilihan program keterampilan yang tersedia bagi siswa.
         </p>
 
         {/* GRID CARD */}
-        <div className="ekskul-container">
+        <div className="keterampilan-container">
           {keterampilanList.map((item, index) => (
             <div
-              className="ekskul-card"
+              ref={addToRefs}
+              className="keterampilan-card reveal reveal-up"
+              style={{ transitionDelay: `${index * 0.08}s` }}
               key={index}
               onClick={() => setSelectedSkill(item)}
             >
@@ -62,7 +99,7 @@ function KeterampilanPage() {
                 <span>Lihat Detail</span>
               </div>
 
-              <div className="ekskul-card-content">
+              <div className="keterampilan-card-content">
                 <h3>{item.nama}</h3>
                 <p>{item.deskripsi}</p>
               </div>
@@ -77,7 +114,7 @@ function KeterampilanPage() {
             onClick={() => setSelectedSkill(null)}
           >
             <div
-              className="modal-ekskul"
+              className="modal-keterampilan"
               onClick={(e) => e.stopPropagation()}
             >
               <button

@@ -192,15 +192,16 @@
   border-radius: 18px;
   box-shadow: 0 10px 30px rgba(0,0,0,0.12);
   text-align: center;
-  animation: floatCard 4s ease-in-out infinite;
+  transition:
+    transform 0.35s ease,
+    box-shadow 0.35s ease,
+    opacity 0.8s ease;
+  will-change: transform, opacity;
 }
 
-.hero-stats .stat-card:nth-child(2) {
-  animation-delay: 0.8s;
-}
-
-.hero-stats .stat-card:nth-child(3) {
-  animation-delay: 1.6s;
+.hero-stats .stat-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 16px 35px rgba(0,0,0,0.18);
 }
 
 .hero-stats .stat-card h3 {
@@ -228,6 +229,21 @@
   }
 }
 
+
+@keyframes floatHeroSlider {
+  0% {
+    transform: translateY(0px);
+  }
+
+  50% {
+    transform: translateY(-10px);
+  }
+
+  100% {
+    transform: translateY(0px);
+  }
+}
+
 /* SLIDER */
 .hero-slider {
   flex: 1;
@@ -238,7 +254,8 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 0 60px; 
+  padding: 0 60px;
+  animation: floatHeroSlider 5s ease-in-out infinite;
 }
 
 .slide {
@@ -511,4 +528,49 @@
   .active-dot {
     width: 28px;
   }
+}
+
+/* =========================
+   REVEAL / HERO ENTRY
+========================= */
+.reveal {
+  opacity: 0;
+  transition:
+    opacity 0.8s ease,
+    transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: transform, opacity;
+}
+
+.reveal-up {
+  transform: translateY(45px);
+}
+
+.reveal-left {
+  transform: translateX(-50px);
+}
+
+.reveal-right {
+  transform: translateX(60px);
+}
+
+.reveal.show {
+  opacity: 1;
+  transform: translate(0, 0);
+}
+
+/* delay */
+.delay-1 {
+  transition-delay: 0.12s;
+}
+
+.delay-2 {
+  transition-delay: 0.24s;
+}
+
+.delay-3 {
+  transition-delay: 0.36s;
+}
+
+.delay-4 {
+  transition-delay: 0.48s;
 }

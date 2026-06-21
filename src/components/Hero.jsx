@@ -1,9 +1,10 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import "./Hero.css";
 import { useNavigate } from "react-router-dom";
 
 function Hero() {
-  const navigate = useNavigate(); 
+  const navigate = useNavigate();
+  const revealRefs = useRef([]);
 
   const slides = [
     "/Slide1.jpg",
@@ -17,7 +18,7 @@ function Hero() {
     "/Slide9.jpg",
     "/Slide10.jpg",
     "/Slide11.jpg",
-  ]
+  ];
 
   const [current, setCurrent] = useState(0);
 
@@ -29,6 +30,34 @@ function Hero() {
 
     return () => clearInterval(interval);
   }, []);
+
+  // Reveal animation
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("show");
+          }
+        });
+      },
+      {
+        threshold: 0.15,
+      }
+    );
+
+    revealRefs.current.forEach((el) => {
+      if (el) observer.observe(el);
+    });
+
+    return () => observer.disconnect();
+  }, []);
+
+  const addToRefs = (el) => {
+    if (el && !revealRefs.current.includes(el)) {
+      revealRefs.current.push(el);
+    }
+  };
 
   const nextSlide = () => {
     setCurrent((prev) => (prev === slides.length - 1 ? 0 : prev + 1));
@@ -45,38 +74,59 @@ function Hero() {
 
           {/* KIRI */}
           <div className="hero-content">
-            <div className="hero-badge">✨ Ekstrakurikuler MAN 4 Tangerang</div>
-            
-            <h1>
+            <div
+              ref={addToRefs}
+              className="hero-badge reveal reveal-up"
+            >
+              ✨ Ekstrakurikuler MAN 4 Tangerang
+            </div>
+
+            <h1
+              ref={addToRefs}
+              className="hero-title reveal reveal-up delay-1"
+            >
               <span className="hero-main-text">Setiap Siswa Punya Potensi,</span>{" "}
               <span className="highlight">Saatnya Kamu Bersinar</span>
             </h1>
 
-            <p>
+            <p
+              ref={addToRefs}
+              className="hero-desc reveal reveal-up delay-2"
+            >
               Ekstrakurikuler MAN 4 Tangerang adalah ruang bagi setiap siswa untuk
               menemukan passion, mengembangkan bakat, dan membangun kepercayaan diri.
               Bersama, kita tumbuh menjadi pribadi yang lebih baik setiap harinya.
             </p>
 
             <div className="hero-stats">
-              <div className="stat-card">
+              <div
+                ref={addToRefs}
+                className="stat-card reveal reveal-up delay-2"
+              >
                 <h3>3</h3>
                 <span>Ekskul Wajib</span>
               </div>
 
-              <div className="stat-card">
+              <div
+                ref={addToRefs}
+                className="stat-card reveal reveal-up delay-3"
+              >
                 <h3>14+</h3>
                 <span>Ekstrakurikuler</span>
               </div>
 
-              <div className="stat-card">
+              <div
+                ref={addToRefs}
+                className="stat-card reveal reveal-up delay-4"
+              >
                 <h3>100%</h3>
                 <span>Berbasis Preferensi</span>
               </div>
             </div>
 
             <button
-              className="hero-btn"
+              ref={addToRefs}
+              className="hero-btn reveal reveal-up delay-4"
               onClick={() => navigate("/test")}
             >
               Temukan Minatmu
@@ -84,8 +134,10 @@ function Hero() {
           </div>
 
           {/* KANAN - SLIDER */}
-          <div className="hero-slider">
-
+          <div
+            ref={addToRefs}
+            className="hero-slider reveal reveal-right delay-2"
+          >
             {slides.map((slide, index) => (
               <img
                 key={index}
@@ -108,6 +160,7 @@ function Hero() {
               ))}
             </div>
           </div>
+
         </div>
       </div>
     </section>
