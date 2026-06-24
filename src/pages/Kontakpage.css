@@ -236,10 +236,7 @@
     margin: 0 auto;
   }
 
-  /* ===================== */
   /* MAP SECTION CENTER FIX */
-  /* ===================== */
-
   .maps-section {
     margin-top: 70px;
     padding: 0 20px;
@@ -291,9 +288,7 @@
   }
 }
 
-/* =========================
-   REVEAL ON SCROLL
-========================= */
+/*  REVEAL ON SCROLL */
 .reveal {
   opacity: 0;
   transition:
@@ -319,7 +314,6 @@
   transform: translate(0, 0);
 }
 
-/* Delay helper */
 .delay-1 {
   transition-delay: 0.12s;
 }

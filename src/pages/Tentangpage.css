@@ -297,9 +297,7 @@
   }
 }
 
-/* =========================
-   REVEAL ON SCROLL
-========================= */
+/* REVEAL ON SCROLL */
 .reveal {
   opacity: 0;
   transition:
