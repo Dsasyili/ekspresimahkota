@@ -1,16 +1,38 @@
-# React + Vite
+# Website Recommended for Extracurricular Activities
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A web-based application that helps students discover suitable extracurricular activities through an AI-based recommendation system using the **Forward Chaining algorithm**.
 
-Currently, two official plugins are available:
+## 📖 About the Project
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+**Website Recommended for Extracurricular Activities** is an intelligent web application designed to assist students in finding extracurricular activities that match their interests and preferences.
 
-## React Compiler
+The system uses an **Artificial Intelligence (AI) recommendation approach** with the **Forward Chaining algorithm** to process user input and generate suitable extracurricular activity recommendations.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## ✨ Features
 
-## Expanding the ESLint configuration
+- 🤖 AI-based extracurricular activity recommendation
+- 🧠 Recommendation system using the **Forward Chaining algorithm**
+- 📝 User input for interests and preferences
+- 🎯 Personalized extracurricular activity recommendations
+- 🌐 User-friendly interface
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## 🛠️ Technologies Used
+
+- React
+- JavaScript
+- Vite
+- HTML
+- CSS
+
+## 🔗 Live Demo
+https://ekspresimahkota-pi.vercel.app/
+
+## 🎯 Project Purpose
+
+This project was developed to demonstrate the implementation of an AI-based recommendation system using the Forward Chaining algorithm in a web application.
+
+The main goal is to help students identify extracurricular activities that best match their interests and preferences.
+
+## 👩‍💻 Author
+
+Desquita Sasyili
