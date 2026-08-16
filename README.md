@@ -35,4 +35,4 @@ The main goal is to help students identify extracurricular activities that best 
 
 ## 👩‍💻 Author
 
-Desquita Sasyili
+Desquita Sasyili  |  © 2026 Sachylee. All Rights Reserved.
